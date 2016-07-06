@@ -1,0 +1,12 @@
+name: stumpy_png
+version: 0.1.0
+
+authors:
+  - Leon Rische <hello@l3kn.de>
+
+development_dependencies:
+  minitest:
+    git: https://github.com/ysbaddaden/minitest.cr.git
+    version: ~> 0.3.1
+
+license: MIT
