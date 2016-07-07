@@ -1,7 +1,5 @@
 require "./utils"
 
-# include StumpyPNG::Utils
-
 module StumpyPNG
   class RGBA
     property r : UInt16
