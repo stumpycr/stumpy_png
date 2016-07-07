@@ -165,24 +165,24 @@ module StumpyPNG
       canvas
     end
 
-    def self.read(path)
-      png = PNG.new
-      datastream = Datastream.read(path)
-
-      datastream.chunks.each do |chunk|
-        case chunk.type
-        when "IHDR"
-          png.parse_IHDR(chunk.data)
-        when "PLTE"
-          png.parse_PLTE(chunk.data)
-        when "IDAT"
-          png.parse_IDAT(chunk.data)
-        when "IEND"
-          png.parse_IEND(chunk.data)
-        end
+    def parse_chunk(chunk)
+      case chunk.type
+      when "IHDR"
+        parse_IHDR(chunk.data)
+      when "PLTE"
+        parse_PLTE(chunk.data)
+      when "IDAT"
+        parse_IDAT(chunk.data)
+      when "IEND"
+        parse_IEND(chunk.data)
       end
 
-      png
+      # make method chainable
+      self
+    end
+
+    def self.read(path)
+      Datastream.read(path).chunks.reduce(PNG.new) { |png, chunk| png.parse_chunk(chunk) }
     end
   end
 end
