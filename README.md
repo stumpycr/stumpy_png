@@ -23,7 +23,7 @@
 ## Usage
 
 ``` crystal
-require "./stumpy_png"
+require "stumpy_png"
 
 png = StumpyPNG::PNG.read("foo.png")
 canvas = png.to_canvas
