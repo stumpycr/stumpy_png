@@ -22,7 +22,7 @@
 
 ## Usage
 
-```
+``` crystal
 require "./stumpy_png"
 
 png = StumpyPNG::PNG.read("foo.png")
@@ -36,23 +36,6 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 ## Progress
 
 - [ ] CRC verification
-
-### Ancillary Chunks
-
-- [ ] tRNS
-- [ ] cHRM
-- [ ] gAMA
-- [ ] iCCP
-- [ ] sBIT
-- [ ] sRGB
-- [ ] tEXt
-- [ ] zTXt
-- [ ] iTXt
-- [ ] bKGD
-- [ ] hIST
-- [ ] pHYs
-- [ ] sPLT
-- [ ] tIME
 
 ### Color Types
 
@@ -74,3 +57,20 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 
 - [x] None
 - [ ] Adam7
+
+### Ancillary Chunks
+
+- [ ] tRNS
+- [ ] cHRM
+- [ ] gAMA
+- [ ] iCCP
+- [ ] sBIT
+- [ ] sRGB
+- [ ] tEXt
+- [ ] zTXt
+- [ ] iTXt
+- [ ] bKGD
+- [ ] hIST
+- [ ] pHYs
+- [ ] sPLT
+- [ ] tIME
