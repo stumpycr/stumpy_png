@@ -4,6 +4,7 @@ require "./canvas"
 require "./utils"
 require "./datastream"
 require "./filters"
+require "./color_types"
 
 module StumpyPNG
   class PNG
@@ -127,6 +128,14 @@ module StumpyPNG
         4 => Filters::Paeth,
       }
 
+      color_types = {
+        0 => ColorTypes::Grayscale.new,
+        2 => ColorTypes::RGB.new,
+        3 => ColorTypes::Palette.new(@palette),
+        4 => ColorTypes::GrayscaleAlpha.new,
+        6 => ColorTypes::RGBAlpha.new,
+      }
+
       @height.times do |y|
         filter = @data.shift(1).first
 
@@ -142,97 +151,11 @@ module StumpyPNG
 
         prior_scanline = decoded
 
-        x = 0
-        case @color_type
-        when 0 # grayscale
-          case @bit_depth
-            when 1, 2, 4
-              decoded.each_slice(bpp) do |bytes|
-                Utils.each_n_bit_integer(bytes.first, @bit_depth) do |value|
-                  canvas.set_pixel(x, y, RGBA.from_gray_n(value, @bit_depth))
-                  x += 1
-                end
-              end
-            when 8
-              decoded.each_slice(bpp) do |gray|
-                value = Utils.parse_integer(gray)
-                canvas.set_pixel(x, y, RGBA.from_gray_n(value, 8))
-                x += 1
-              end
-            when 16
-              decoded.each_slice(bpp) do |gray|
-                value = Utils.parse_integer(gray)
-                canvas.set_pixel(x, y, RGBA.from_gray_n(value, 16))
-                x += 1
-              end
-            else
-              "Invalid bit depth #{bit_depth}"
-          end
-        when 2 # rgb
-          case @bit_depth
-            when 8
-              decoded.each_slice(bpp) do |values|
-                canvas.set_pixel(x, y, RGBA.from_rgb_n(values, 8))
-                x += 1
-              end
-            when 16
-              decoded.each_slice(bpp) do |values|
-                values = values.each_slice(2).map { |s| Utils.parse_integer(s) }.to_a
-                canvas.set_pixel(x, y, RGBA.from_rgb_n(values, 16))
-                x += 1
-              end
-            else
-              "Invalid bit depth #{bit_depth}"
-          end
-        when 3 # palette
-          case @bit_depth
-            when 1, 2, 4
-              decoded.each_slice(bpp) do |bytes|
-                Utils.each_n_bit_integer(bytes.first, @bit_depth) do |index|
-                  canvas.set_pixel(x, y, @palette[index])
-                  x += 1
-                end
-              end
-            when 8
-              decoded.each_slice(bpp) do |bytes|
-                index = Utils.parse_integer(bytes)
-                canvas.set_pixel(x, y, @palette[index])
-                x += 1
-              end
-            else
-              "Invalid bit depth #{bit_depth}"
-          end
-        when 4 # grayscale alpha
-          case @bit_depth
-            when 8
-              decoded.each_slice(bpp) do |values|
-                canvas.set_pixel(x, y, RGBA.from_graya_n(values, 8))
-                x += 1
-              end
-            when 16
-              decoded.each_slice(bpp) do |values|
-                values = values.each_slice(2).map { |s| Utils.parse_integer(s) }.to_a
-                canvas.set_pixel(x, y, RGBA.from_graya_n(values, 16))
-                x += 1
-              end
-            else
-              "Invalid bit depth #{bit_depth}"
-          end
-        when 6 # rgb alpha
-          case @bit_depth
-            when 8
-              decoded.each_slice(bpp) do |values|
-                canvas.set_pixel(x, y, RGBA.from_rgba_n(values, 8))
-                x += 1
-              end
-            when 16
-              decoded.each_slice(bpp) do |values|
-                values = values.each_slice(2).map { |s| Utils.parse_integer(s) }.to_a
-                canvas.set_pixel(x, y, RGBA.from_rgba_n(values, 16))
-                x += 1
-              end
-            else
-              "Invalid bit depth #{bit_depth}"
+        if color_types.has_key?(@color_type)
+          x = 0
+          color_types[@color_type].each_pixel(decoded, @bit_depth) do |pixel|
+            canvas.set_pixel(x, y, pixel)
+            x += 1
           end
         else
           raise "Unknown color type #{@color_type}"
