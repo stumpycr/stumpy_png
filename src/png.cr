@@ -2,11 +2,11 @@ require "zlib"
 require "./rgba"
 require "./canvas"
 require "./utils"
+require "./datastream"
+require "./filters"
 
 module StumpyPNG
   class PNG
-    HEADER = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]
-
     # { name, valid bit depths, "fields" per pixel }
     COLOR_TYPES = {
       0 => { :grayscale, [1, 2, 4, 8, 16], 1 },
@@ -49,24 +49,6 @@ module StumpyPNG
       @parsed = false
 
       @data = [] of UInt8
-    end
-
-    def parse_chunk(chunk)
-      type = chunk.shift(4).map(&.chr).join("")
-      crc = chunk.pop(4)
-
-      # TODO: verify crc
-
-      case type
-      when "IHDR"
-        parse_IHDR(chunk)
-      when "PLTE"
-        parse_PLTE(chunk)
-      when "IDAT"
-        parse_IDAT(chunk)
-      when "IEND"
-        parse_IEND(chunk)
-      end
     end
 
     def parse_IEND(chunk)
@@ -137,6 +119,14 @@ module StumpyPNG
 
       prior_scanline = [] of UInt8
 
+      filters = {
+        0 => Filters::None,
+        1 => Filters::Sub,
+        2 => Filters::Up,
+        3 => Filters::Average,
+        4 => Filters::Paeth,
+      }
+
       @height.times do |y|
         filter = @data.shift(1).first
 
@@ -144,36 +134,8 @@ module StumpyPNG
         scanline = @data.shift(scanline_width)
         decoded = [] of UInt8
 
-        case filter
-        when 0
-          decoded = scanline
-        when 1 # sub
-          scanline.each_with_index do |byte, index|
-            prior = (index - bpp) < 0 ? 0 : decoded[index - bpp]
-
-            decoded << byte + prior
-          end
-        when 2 # up
-          scanline.each_with_index do |byte, index|
-            above = (y == 0) ? 0 : prior_scanline[index]
-
-            decoded << byte + above
-          end
-        when 3 # average
-          scanline.each_with_index do |byte, index|
-            prior = (index - bpp) < 0 ? 0 : decoded[index - bpp]
-            above = (y == 0) ? 0 : prior_scanline[index]
-
-            decoded << byte + ((prior.to_f + above.to_f) / 2).floor.to_u8
-          end
-        when 4 # paeth
-          scanline.each_with_index do |byte, index|
-            prior = (index - bpp) < 0 ? 0 : decoded[index - bpp]
-            above = y == 0 ? 0 : prior_scanline[index]
-            upper_left = (y == 0 || (index - bpp) < 0) ? 0 : prior_scanline[index - bpp]
-
-            decoded << (byte.to_u16 + Utils.paeth_predictor(prior, above, upper_left)).to_u8
-          end
+        if filters.has_key?(filter)
+          decoded = filters[filter].apply(scanline, prior_scanline, bpp)
         else
           raise "Unknown filter type #{filter}"
         end
@@ -282,13 +244,18 @@ module StumpyPNG
 
     def self.read(path)
       png = PNG.new
+      datastream = Datastream.read(path)
 
-      File.open(path) do |file|
-        raise "Not a png file" if Utils.read_n_byte(file, HEADER.size) != HEADER
-        until file.pos == file.size
-          chunk_length = Utils.parse_integer(Utils.read_n_byte(file, 4))
-          chunk = Utils.read_n_byte(file, chunk_length + 4 + 4)
-          png.parse_chunk(chunk)
+      datastream.chunks.each do |chunk|
+        case chunk.type
+        when "IHDR"
+          png.parse_IHDR(chunk.data)
+        when "PLTE"
+          png.parse_PLTE(chunk.data)
+        when "IDAT"
+          png.parse_IDAT(chunk.data)
+        when "IEND"
+          png.parse_IEND(chunk.data)
         end
       end
 
