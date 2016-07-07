@@ -1,6 +1,6 @@
 require "minitest/autorun"
 
-require "../src/png"
+require "../src/stumpy_png"
 
 module StumpyPNG
   class PNGSuiteTest < Minitest::Test
