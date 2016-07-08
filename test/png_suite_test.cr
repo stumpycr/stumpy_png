@@ -44,5 +44,68 @@ module StumpyPNG
     def test_zlib_compression
       image_test_helper("./test/png_suite/zlib_compression/*.png")
     end
+
+    def test_corrupted_files__invalid_signature
+      images = %w(
+        ./test/png_suite/corrupted_files/xs1n0g01.png
+        ./test/png_suite/corrupted_files/xs2n0g01.png
+        ./test/png_suite/corrupted_files/xs4n0g01.png
+        ./test/png_suite/corrupted_files/xs7n0g01.png
+        ./test/png_suite/corrupted_files/xcrn0g04.png
+        ./test/png_suite/corrupted_files/xlfn0g04.png
+      )
+
+      images.each do |image|
+        err = assert_raises Exception do
+          PNG.read(image)
+        end
+        assert_equal err.message, "Not a png file"
+      end
+    end
+
+    def test_corrupted_files__invalid_color_type
+      images = %w(
+        ./test/png_suite/corrupted_files/xc1n0g08.png
+        ./test/png_suite/corrupted_files/xc9n2c08.png
+      )
+
+      images.each do |image|
+        err = assert_raises Exception do
+          PNG.read(image)
+        end
+        assert_equal err.message, "Invalid color type"
+      end
+    end
+
+    def test_corrupted_files__invalid_color_type
+      images = %w(
+        ./test/png_suite/corrupted_files/xd0n2c08.png
+        ./test/png_suite/corrupted_files/xd3n2c08.png
+        ./test/png_suite/corrupted_files/xd9n2c08.png
+      )
+
+      images.each do |image|
+        err = assert_raises Exception do
+          PNG.read(image)
+        end
+        assert_equal err.message, "Invalid bit depth for this color type"
+      end
+    end
+
+    def test_corrupted_files__missing_IDAT_chunk
+      image = "./test/png_suite/corrupted_files/xdtn0g01.png"
+      err = assert_raises Exception do
+        PNG.read(image)
+      end
+      assert_equal err.message, "Missing IDAT chunk"
+    end
+
+    def test_corrupted_files__incorrect_IDAT_checksum
+      image = "./test/png_suite/corrupted_files/xcsn0g01.png"
+      err = assert_raises Exception do
+        PNG.read(image)
+      end
+      assert_equal err.message, "Incorrect checksum"
+    end
   end
 end

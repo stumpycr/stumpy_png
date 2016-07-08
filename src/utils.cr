@@ -4,6 +4,10 @@ module StumpyPNG
       bytes.reduce(0) { |acc, byte| (acc << 8) + byte }
     end
 
+    def self.parse_integer32(bytes)
+      bytes.reduce(0.to_u32) { |acc, byte| (acc << 8) + byte }
+    end
+
     def self.read_n_byte(file, n)
       slice = Slice(UInt8).new(n)
       file.read_fully(slice)

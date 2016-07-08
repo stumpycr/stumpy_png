@@ -1,3 +1,4 @@
+require "zlib"
 require "./utils"
 
 module StumpyPNG
@@ -7,8 +8,14 @@ module StumpyPNG
 
     def initialize(chunk)
       @type = chunk.shift(4).map(&.chr).join("")
-      crc = chunk.pop(4)
-      # TODO: verify crc
+      crc = Utils.parse_integer32(chunk.pop(4))
+
+      s1 = Slice.new(@type.to_unsafe, @type.size)
+      s2 = Slice.new(chunk.to_unsafe, chunk.size)
+
+      expected_crc = Zlib.crc32(s2, Zlib.crc32(s1))
+
+      raise "Incorrect checksum" if crc != expected_crc
 
       @data = chunk
     end

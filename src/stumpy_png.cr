@@ -50,9 +50,13 @@ module StumpyPNG
       @parsed = false
 
       @data = [] of UInt8
+
+      @idat_count = 0
     end
 
     def parse_IEND(chunk)
+      raise "Missing IDAT chunk" if @idat_count == 0
+
       # Reset buffer position
       @idat_buffer.pos = 0
 
@@ -61,11 +65,11 @@ module StumpyPNG
       end
       @data = contents.bytes
 
-
       parsed = true
     end
 
     def parse_IDAT(chunk)
+      @idat_count += 1
       # Add chunk data to buffer
       chunk.each do |byte|
         @idat_buffer.write_byte(byte)
