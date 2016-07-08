@@ -137,6 +137,7 @@ module StumpyPNG
         COLOR_TYPES[@color_type][0].each_pixel(decoded, @bit_depth, @palette) do |pixel|
           canvas.set_pixel(x, y, pixel)
           x += 1
+          break if x >= @width
         end
       end
 
@@ -160,10 +161,16 @@ module StumpyPNG
         prior_scanline = [] of UInt8
         row = starting_row[pass]
 
-        scanline_width_ = (@width / col_increment[pass]).floor
+        scanline_width_ = [0, ((@width - starting_col[pass]).to_f / col_increment[pass]).ceil].max
         scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * scanline_width_).ceil.to_i32
 
-        while row < height
+        if scanline_width_ == 0
+          pass += 1
+          next
+        end
+
+
+        while row < @height
           filter = @data.shift(1).first
           scanline = @data.shift(scanline_width)
 
