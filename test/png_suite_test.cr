@@ -40,5 +40,9 @@ module StumpyPNG
     def test_odd_sizes
       image_test_helper("./test/png_suite/odd_sizes/*.png")
     end
+
+    def test_zlib_compression
+      image_test_helper("./test/png_suite/zlib_compression/*.png")
+    end
   end
 end
