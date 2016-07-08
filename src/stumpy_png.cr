@@ -10,11 +10,11 @@ module StumpyPNG
   class PNG
     # { name, valid bit depths, "fields" per pixel }
     COLOR_TYPES = {
-      0 => { :grayscale, [1, 2, 4, 8, 16], 1 },
-      2 => { :rgb, [8, 16], 3 },
-      3 => { :palette, [1, 2, 4, 8], 1 },
-      4 => { :grayscale_alpha, [8, 16], 2 },
-      6 => { :rgb_alpha, [8, 16], 4 },
+      0 => { ColorTypes::Grayscale, [1, 2, 4, 8, 16], 1 },
+      2 => { ColorTypes::RGB, [8, 16], 3 },
+      3 => { ColorTypes::Palette, [1, 2, 4, 8], 1 },
+      4 => { ColorTypes::GrayscaleAlpha, [8, 16], 2 },
+      6 => { ColorTypes::RGBAlpha, [8, 16], 4 },
     }
 
     INTERLACE_METHODS = {
@@ -22,12 +22,12 @@ module StumpyPNG
       1 => :adam7,
     }
 
-    FILTER_TYPES = {
-      0 => :none,
-      1 => :sub,
-      2 => :up,
-      3 => :average,
-      4 => :paeth,
+    FILTERS = {
+      0 => Filters::None,
+      1 => Filters::Sub,
+      2 => Filters::Up,
+      3 => Filters::Average,
+      4 => Filters::Paeth,
     }
 
     property width : Int32, height : Int32
@@ -110,56 +110,82 @@ module StumpyPNG
     end
 
     def to_canvas
-      canvas = Canvas.new(@width, @height)
-      # puts "  Data size: #{@data.size}b"
+      if @interlace_method == 0
+        to_canvas_none
+      else
+        to_canvas_adam7
+      end
+    end
 
+    def to_canvas_none
+      canvas = Canvas.new(@width, @height)
       bpp = ([8, @bit_depth].max / 8 * COLOR_TYPES[@color_type][2]).to_i32
       scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * @width).ceil.to_i32
-      # puts "  Bytes per pixel: #{bpp}"
-      # puts "  Scanline width: #{scanline_width}"
-
       prior_scanline = [] of UInt8
-
-      filters = {
-        0 => Filters::None,
-        1 => Filters::Sub,
-        2 => Filters::Up,
-        3 => Filters::Average,
-        4 => Filters::Paeth,
-      }
-
-      color_types = {
-        0 => ColorTypes::Grayscale.new,
-        2 => ColorTypes::RGB.new,
-        3 => ColorTypes::Palette.new(@palette),
-        4 => ColorTypes::GrayscaleAlpha.new,
-        6 => ColorTypes::RGBAlpha.new,
-      }
 
       @height.times do |y|
         filter = @data.shift(1).first
-
-        # bytes per pixel
         scanline = @data.shift(scanline_width)
         decoded = [] of UInt8
 
-        if filters.has_key?(filter)
-          decoded = filters[filter].apply(scanline, prior_scanline, bpp)
-        else
-          raise "Unknown filter type #{filter}"
-        end
+        raise "Unknown filter type #{filter}" unless FILTERS.has_key?(filter)
+        decoded = FILTERS[filter].apply(scanline, prior_scanline, bpp)
 
         prior_scanline = decoded
 
-        if color_types.has_key?(@color_type)
-          x = 0
-          color_types[@color_type].each_pixel(decoded, @bit_depth) do |pixel|
-            canvas.set_pixel(x, y, pixel)
-            x += 1
-          end
-        else
-          raise "Unknown color type #{@color_type}"
+        x = 0
+        COLOR_TYPES[@color_type][0].each_pixel(decoded, @bit_depth, @palette) do |pixel|
+          canvas.set_pixel(x, y, pixel)
+          x += 1
         end
+      end
+
+      canvas
+    end
+
+    def to_canvas_adam7
+      starting_row  = [0, 0, 4, 0, 2, 0, 1]
+      starting_col  = [0, 4, 0, 2, 0, 1, 0]
+      row_increment = [8, 8, 8, 4, 4, 2, 2]
+      col_increment = [8, 8, 4, 4, 2, 2, 1]
+
+      pass = 0
+      row = 0
+      col = 0
+
+      canvas = Canvas.new(@width, @height)
+      bpp = ([8, @bit_depth].max / 8 * COLOR_TYPES[@color_type][2]).to_i32
+
+      while pass < 7
+        prior_scanline = [] of UInt8
+        row = starting_row[pass]
+
+        scanline_width_ = (@width / col_increment[pass]).floor
+        scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * scanline_width_).ceil.to_i32
+
+        while row < height
+          filter = @data.shift(1).first
+          scanline = @data.shift(scanline_width)
+
+          raise "Unknown filter type #{filter}" unless FILTERS.has_key?(filter)
+          decoded = FILTERS[filter].apply(scanline, prior_scanline, bpp)
+
+          prior_scanline = decoded
+
+          buffer = [] of RGBA
+          
+          COLOR_TYPES[@color_type][0].each_pixel(decoded, @bit_depth, @palette) do |pixel|
+            buffer << pixel
+          end
+
+          col = starting_col[pass]
+          while col < @width
+            canvas.set_pixel(col, row, buffer.shift)
+            col += col_increment[pass]
+          end
+          row += row_increment[pass]
+        end
+        pass += 1
       end
 
       canvas

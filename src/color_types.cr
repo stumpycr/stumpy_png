@@ -3,7 +3,9 @@ require "./rgba"
 module StumpyPNG
   module ColorTypes
     class Grayscale
-      def each_pixel(decoded, bit_depth, &block)
+      include Enumerable(RGBA)
+
+      def self.each_pixel(decoded, bit_depth, palette, &block)
         case bit_depth
         when 1, 2, 4
           decoded.each do |byte|
@@ -27,7 +29,7 @@ module StumpyPNG
     end
 
     class RGB
-      def each_pixel(decoded, bit_depth, &block)
+      def self.each_pixel(decoded, bit_depth, palette, &block)
         case bit_depth
           when 8
             decoded.each_slice(3) do |values|
@@ -45,22 +47,17 @@ module StumpyPNG
     end
 
     class Palette
-      property palette : Array(RGBA)
-
-      def initialize(@palette)
-      end
-
-      def each_pixel(decoded, bit_depth, &block)
+      def self.each_pixel(decoded, bit_depth, palette, &block)
         case bit_depth
           when 1, 2, 4
             decoded.each do |byte|
               Utils.each_n_bit_integer(byte, bit_depth) do |index|
-                yield @palette[index]
+                yield palette[index]
               end
             end
           when 8
             decoded.each do |byte|
-              yield @palette[byte]
+              yield palette[byte]
             end
           else
             "Invalid bit depth #{bit_depth}"
@@ -69,7 +66,7 @@ module StumpyPNG
     end
 
     class GrayscaleAlpha
-      def each_pixel(decoded, bit_depth, &block)
+      def self.each_pixel(decoded, bit_depth, palette, &block)
         case bit_depth
           when 8
             decoded.each_slice(2) do |values|
@@ -87,7 +84,7 @@ module StumpyPNG
     end
 
     class RGBAlpha
-      def each_pixel(decoded, bit_depth, &block)
+      def self.each_pixel(decoded, bit_depth, palette, &block)
         case bit_depth
           when 8
             decoded.each_slice(4) do |values|
