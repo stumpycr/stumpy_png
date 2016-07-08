@@ -56,7 +56,7 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 ### Interlacing Methods
 
 - [x] None
-- [ ] Adam7
+- [x] Adam7
 
 ### Ancillary Chunks
 
