@@ -56,5 +56,23 @@ module StumpyPNG
         assert_equal reference, rgba
       end
     end
+
+    def test_interlacing
+      images = Dir["./test/png_suite/interlacing/*.png"]
+
+      images.each do |image|
+        png = PNG.read(image)
+        canvas = png.to_canvas
+
+        reference_path = image.gsub(".png", ".rgba")
+        # FIXME: For some reason -gamma 1 does not work as expected
+        system "convert -depth 8 -compress none -gamma 0.999999 #{image} #{reference_path}"
+
+        reference = File.read(reference_path).bytes
+        rgba = canvas.pixels.map(&.to_rgba8).map(&.to_a).flatten
+
+        assert_equal reference, rgba
+      end
+    end
   end
 end
