@@ -3,12 +3,11 @@ require "minitest/autorun"
 require "../src/stumpy_png"
 
 module StumpyPNG
-  class PNGSuiteTest < Minitest::Test
+  class StumpyPNGSuiteTest < Minitest::Test
     def image_test_helper(path)
       images = Dir[path]
       images.each do |image|
-        png = PNG.read(image)
-        canvas = png.to_canvas
+        canvas = StumpyPNG.read(image)
 
         reference_path = image.gsub(".png", ".rgba")
         # FIXME: For some reason -gamma 1 does not work as expected
@@ -57,7 +56,7 @@ module StumpyPNG
 
       images.each do |image|
         err = assert_raises Exception do
-          PNG.read(image)
+          StumpyPNG.read(image)
         end
         assert_equal err.message, "Not a png file"
       end
@@ -71,7 +70,7 @@ module StumpyPNG
 
       images.each do |image|
         err = assert_raises Exception do
-          PNG.read(image)
+          StumpyPNG.read(image)
         end
         assert_equal err.message, "Invalid color type"
       end
@@ -86,7 +85,7 @@ module StumpyPNG
 
       images.each do |image|
         err = assert_raises Exception do
-          PNG.read(image)
+          StumpyPNG.read(image)
         end
         assert_equal err.message, "Invalid bit depth for this color type"
       end
@@ -95,7 +94,7 @@ module StumpyPNG
     def test_corrupted_files__missing_IDAT_chunk
       image = "./test/png_suite/corrupted_files/xdtn0g01.png"
       err = assert_raises Exception do
-        PNG.read(image)
+        StumpyPNG.read(image)
       end
       assert_equal err.message, "Missing IDAT chunk"
     end
@@ -103,7 +102,7 @@ module StumpyPNG
     def test_corrupted_files__incorrect_IDAT_checksum
       image = "./test/png_suite/corrupted_files/xcsn0g01.png"
       err = assert_raises Exception do
-        PNG.read(image)
+        StumpyPNG.read(image)
       end
       assert_equal err.message, "Incorrect checksum"
     end
