@@ -53,6 +53,8 @@ end
 StumpyPNG.write(canvas, "rainbow.png")
 ```
 
+![PNG image with a color gradient](examples/rainbow.png)
+
 (See `examples/` for more examples)
 
 ## Reading PNG files
