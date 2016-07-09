@@ -21,6 +21,13 @@ module StumpyPNG
       )
     end
 
+    def ==(other)
+      @r == other.r &&
+      @g == other.g &&
+      @b == other.b &&
+      @a == other.a
+    end
+
     def self.from_rgba_n(values, n)
       red   = Utils.scale_up(values[0], n)
       green = Utils.scale_up(values[1], n)
