@@ -4,8 +4,12 @@ module StumpyPNG
       bytes.reduce(0) { |acc, byte| (acc << 8) + byte }
     end
 
-    def self.parse_integer32(bytes)
+    def self.bytes_to_uint32(bytes)
       bytes.reduce(0.to_u32) { |acc, byte| (acc << 8) + byte }
+    end
+
+    def self.uint32_to_bytes(int)
+      [24, 16, 8, 0].map { |n| (int >> n & 0xff).to_u8 }
     end
 
     def self.read_n_byte(file, n)
