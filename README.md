@@ -23,6 +23,8 @@
 
 ## Usage
 
+### Reading
+
 ``` crystal
 require "stumpy_png"
 
@@ -30,6 +32,28 @@ canvas = StumpyPNG.read("foo.png")
 r, g, b = canvas.get_pixel(0, 0).to_rgb8
 puts "red=#{r}, green=#{g}, blue=#{b}"
 ```
+
+### Writing
+
+``` crystal
+require "../src/stumpy_png"
+
+canvas = StumpyPNG::Canvas.new(256, 256)
+
+(0...255).each do |x|
+  (0...255).each do |y|
+    # RGBA.from_rgb_n(values, bit_depth) is an internal helper method
+    # that creates an RGBA object from a rgb triplet with a given bit depth
+
+    color = StumpyPNG::RGBA.from_rgb_n([x, y, 255], 8)
+    canvas.set_pixel(x, y, color)
+  end
+end
+
+StumpyPNG.write(canvas, "rainbow.png")
+```
+
+(See `examples/` for more examples)
 
 ## Reading PNG files
 
