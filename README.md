@@ -35,7 +35,7 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 
 ## Progress
 
-- [ ] CRC verification
+- [x] CRC verification
 
 ### Color Types
 
