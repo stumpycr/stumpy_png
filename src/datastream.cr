@@ -25,7 +25,7 @@ module StumpyPNG
       s1 = Slice.new(@type.to_unsafe, @type.size)
       s2 = Slice.new(@data.to_unsafe, @data.size)
 
-      @crc = Zlib.crc32(s2, Zlib.crc32(s1))
+      @crc = Zlib.crc32(s2, Zlib.crc32(s1)).to_u32
     end
 
     def size
