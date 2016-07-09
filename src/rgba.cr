@@ -22,6 +22,7 @@ module StumpyPNG
     end
 
     def ==(other)
+      self.class == other.class &&
       @r == other.r &&
       @g == other.g &&
       @b == other.b &&
