@@ -12,6 +12,10 @@ module StumpyPNG
       [24, 16, 8, 0].map { |n| (int >> n & 0xff).to_u8 }
     end
 
+    def self.uint16_to_bytes(int)
+      [8, 0].map { |n| (int >> n & 0xff).to_u8 }
+    end
+
     def self.read_n_byte(file, n)
       slice = Slice(UInt8).new(n)
       file.read_fully(slice)
