@@ -6,7 +6,6 @@ module StumpyPNG
 
     getter width : Int32
     getter height : Int32
-    property pixels : Array(RGBA)
 
     def initialize(@width, @height)
       @pixels = Array.new(@width * @height, RGBA.new(0_u16, 0_u16, 0_u16, 0_u16))
@@ -18,6 +17,12 @@ module StumpyPNG
 
     def get_pixel(x, y)
       @pixels[x + @width * y]
+    end
+
+    def each_column(&block)
+      @height.times do |n|
+        yield @pixels[n * @width, @width]
+      end
     end
 
     def write_ppm(path)
