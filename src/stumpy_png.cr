@@ -1,5 +1,5 @@
 require "zlib"
-require "./png"
+require "./stumpy_png/png"
 
 module StumpyPNG
   def self.read(path)
