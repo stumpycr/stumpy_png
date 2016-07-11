@@ -18,6 +18,10 @@ module StumpyPNG
       @pixels[x + @width * y]
     end
 
+    def includes_pixel?(x, y)
+      0 <= x && x < @width && 0 <= y && y < @height
+    end
+
     def each_column(&block)
       @height.times do |n|
         yield @pixels[n * @width, @width]
