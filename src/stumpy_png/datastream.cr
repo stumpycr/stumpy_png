@@ -22,8 +22,9 @@ module StumpyPNG
 
         until file.pos == file.size
           chunk_length = file.read_bytes(UInt32, IO::ByteFormat::BigEndian)
-          chunk = Utils.read_n_byte(file, chunk_length + 4 + 4)
-          datastream.chunks << Chunk.new(chunk)
+          chunk_data = Slice(UInt8).new(chunk_length + 4 + 4)
+          file.read_fully(chunk_data)
+          datastream.chunks << Chunk.new(chunk_data)
         end
       end
 
