@@ -129,7 +129,8 @@ module StumpyPNG
         prior_scanline = decoded
 
         x = 0
-        COLOR_TYPES[@color_type][0].each_pixel(decoded, @bit_depth, @palette) do |pixel|
+        values = Utils::NBitEnumerable.new(decoded, @bit_depth)
+        COLOR_TYPES[@color_type][0].each_pixel(values, @bit_depth, @palette) do |pixel|
           canvas.set_pixel(x, y, pixel)
           x += 1
           break if x >= @width
@@ -176,7 +177,8 @@ module StumpyPNG
 
           buffer = [] of RGBA
           
-          COLOR_TYPES[@color_type][0].each_pixel(decoded, @bit_depth, @palette) do |pixel|
+          values = Utils::NBitEnumerable.new(decoded, @bit_depth)
+          COLOR_TYPES[@color_type][0].each_pixel(values, @bit_depth, @palette) do |pixel|
             buffer << pixel
           end
 
