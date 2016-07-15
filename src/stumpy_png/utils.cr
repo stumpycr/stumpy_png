@@ -42,20 +42,6 @@ module StumpyPNG
       end
     end
 
-    def self.get_bit(byte, n)
-      (byte & (1 << n)) >> n
-    end
-
-    def self.each_n_bit_integer(byte, n, &block)
-      (8 / n).times do |integer|
-        sum = 0
-        (0...n).each do |bit|
-          sum = sum * 2 + get_bit(byte, 7 - (integer * n + bit))
-        end
-        yield sum
-      end
-    end
-
     def self.scale_up(input, from)
       return input.to_u16 if from == 16
       (input.to_f / (2 ** from - 1) * (2 ** 16 - 1)).round.to_u16
@@ -63,6 +49,47 @@ module StumpyPNG
 
     def self.scale_from_to(input, from, to)
       (input.to_f / (2 ** from - 1) * (2 ** to - 1)).round
+    end
+
+    class NBitEnumerable
+      include Enumerable(UInt16)
+
+      property values : Array(UInt8)
+      property size
+
+      def initialize(@values, @size = 8_u8)
+      end
+
+      def each(&block)
+        case @size
+        when 1
+          values.each do |byte|
+            (0...8).reverse_each do |n|
+              yield ((byte & (0b1 << n)) >> n).to_u16
+            end
+          end
+        when 2
+          values.each do |byte|
+            (0...4).reverse_each do |n|
+              yield ((byte & (0b11 << (n * 2))) >> (n * 2)).to_u16
+            end
+          end
+        when 4
+          values.each do |byte|
+            (0...2).reverse_each do |n|
+              yield ((byte & (0b1111 << (n * 4))) >> (n * 4)).to_u16
+            end
+          end
+        when 8
+          values.each do |byte|
+            yield byte.to_u16
+          end
+        when 16
+          values.each_slice(2) do |bytes|
+            yield Utils.parse_integer(bytes).to_u16
+          end
+        end
+      end
     end
   end
 end
