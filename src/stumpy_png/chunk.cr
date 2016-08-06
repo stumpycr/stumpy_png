@@ -31,7 +31,7 @@ module StumpyPNG
     end
 
     def raw : Array(UInt8)
-      @type.chars.map { |c| c.ord.to_u8 } + @data + Utils.uint32_to_bytes(@crc)
+      @type.chars.map { |c| c.ord.to_u8 } + @data + Utils.uint32_to_bytes(@crc).to_a
     end
   end
 end

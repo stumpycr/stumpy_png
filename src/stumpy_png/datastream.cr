@@ -36,8 +36,8 @@ module StumpyPNG
 
       @chunks.each do |chunk|
         # [chunk length][chunk raw = type, data, crc]
-        bytes += Utils.uint32_to_bytes(chunk.size)
-        bytes += chunk.raw
+        bytes.concat Utils.uint32_to_bytes(chunk.size)
+        bytes.concat chunk.raw
       end
 
       bytes

@@ -1,11 +1,11 @@
 require "./utils"
 
 module StumpyPNG
-  class RGBA
-    property r : UInt16
-    property g : UInt16
-    property b : UInt16
-    property a : UInt16
+  struct RGBA
+    getter r : UInt16
+    getter g : UInt16
+    getter b : UInt16
+    getter a : UInt16
 
     def initialize(@r, @g, @b, @a)
     end
@@ -21,19 +21,16 @@ module StumpyPNG
       )
     end
 
-    def ==(other)
-      self.class == other.class &&
-      @r == other.r &&
-      @g == other.g &&
-      @b == other.b &&
-      @a == other.a
+    def self.from_rgba_n(values, n)
+      r, g, b, a = values
+      from_rgba_n(r, g, b, a, n)
     end
 
-    def self.from_rgba_n(values, n)
-      red   = Utils.scale_up(values[0], n)
-      green = Utils.scale_up(values[1], n)
-      blue  = Utils.scale_up(values[2], n)
-      alpha = Utils.scale_up(values[3], n)
+    def self.from_rgba_n(r, g, b, a, n)
+      red = Utils.scale_up(r, n)
+      green = Utils.scale_up(g, n)
+      blue = Utils.scale_up(b, n)
+      alpha = Utils.scale_up(a, n)
       RGBA.new(red, green, blue, alpha)
     end
 
@@ -49,9 +46,14 @@ module StumpyPNG
     end
 
     def self.from_rgb_n(values, n)
-      red   = Utils.scale_up(values[0], n)
-      green = Utils.scale_up(values[1], n)
-      blue  = Utils.scale_up(values[2], n)
+      r, g, b = values
+      from_rgb_n(r, g, b, n)
+    end
+
+    def self.from_rgb_n(r, g, b, n)
+      red = Utils.scale_up(r, n)
+      green = Utils.scale_up(g, n)
+      blue = Utils.scale_up(b, n)
       RGBA.new(red, green, blue, UInt16::MAX)
     end
 

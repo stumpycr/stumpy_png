@@ -9,11 +9,11 @@ module StumpyPNG
     end
 
     def self.uint32_to_bytes(int)
-      [24, 16, 8, 0].map { |n| (int >> n & 0xff).to_u8 }
+      {24, 16, 8, 0}.map { |n| (int >> n & 0xff).to_u8 }
     end
 
     def self.uint16_to_bytes(int)
-      [8, 0].map { |n| (int >> n & 0xff).to_u8 }
+      {8, 0}.map { |n| (int >> n & 0xff).to_u8 }
     end
 
     def self.read_n_byte(file, n)
@@ -32,7 +32,7 @@ module StumpyPNG
       pa = (p - a).abs # distances to a, b, c
       pb = (p - b).abs
       pc = (p - c).abs
-      
+
       if pa <= pb && pa <= pc
         return a.to_u8
       elsif pb <= pc
