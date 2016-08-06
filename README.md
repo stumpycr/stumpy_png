@@ -36,7 +36,7 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 ### Writing
 
 ``` crystal
-require "../src/stumpy_png"
+require "stumpy_png"
 
 canvas = StumpyPNG::Canvas.new(256, 256)
 
