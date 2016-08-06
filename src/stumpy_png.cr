@@ -16,10 +16,10 @@ module StumpyPNG
     datastream = Datastream.new
 
     ihdr_data = [] of UInt8
-    ihdr_data += Utils.uint32_to_bytes(canvas.width)
-    ihdr_data += Utils.uint32_to_bytes(canvas.height)
+    ihdr_data.concat Utils.uint32_to_bytes(canvas.width)
+    ihdr_data.concat Utils.uint32_to_bytes(canvas.height)
     # bit depth = 16 bit, color_type = rgba, compression = filter = interlacing = none
-    ihdr_data += [16_u8, 6_u8, 0_u8, 0_u8, 0_u8]
+    ihdr_data.concat({16_u8, 6_u8, 0_u8, 0_u8, 0_u8})
 
     datastream.chunks << Chunk.new("IHDR", ihdr_data)
 
@@ -28,7 +28,7 @@ module StumpyPNG
     canvas.each_column do |col|
       buffer.write_byte(0_u8) # filter = none
       col.each do |pixel|
-        [pixel.r, pixel.g, pixel.b, pixel.a].each do |value|
+        {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
           Utils.uint16_to_bytes(value).each do |byte|
             buffer.write_byte(byte)
           end
