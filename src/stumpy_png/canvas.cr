@@ -6,8 +6,8 @@ module StumpyPNG
     getter height : Int32
     getter pixels : Slice(RGBA)
 
-    def initialize(@width, @height)
-      @pixels = Slice.new(@width * @height, RGBA.new(0_u16, 0_u16, 0_u16, 0_u16))
+    def initialize(@width, @height, background = RGBA.new(0_u16, 0_u16, 0_u16, 0_u16))
+      @pixels = Slice.new(@width * @height, background)
     end
 
     def set_pixel(x, y, color)
