@@ -16,8 +16,8 @@
 * `StumpyPNG::Canvas`, two dimensional Array of RGBA value
   * `canvas.width`
   * `canvas.height`
-  * `canvas.set_pixel(x, y)`
-  * `canvas.get_pixel(x, y)`
+  * `canvas[x, y]=`
+  * `canvas[x, y]`
 
 * `StumpyPNG::PNG`, helper class to store some state while parsing PNG files
 
@@ -29,7 +29,7 @@
 require "stumpy_png"
 
 canvas = StumpyPNG.read("foo.png")
-r, g, b = canvas.get_pixel(0, 0).to_rgb8
+r, g, b = canvas[0, 0].to_rgb8
 puts "red=#{r}, green=#{g}, blue=#{b}"
 ```
 
@@ -46,7 +46,7 @@ canvas = StumpyPNG::Canvas.new(256, 256)
     # that creates an RGBA object from a rgb triplet with a given bit depth
 
     color = StumpyPNG::RGBA.from_rgb_n([x, y, 255], 8)
-    canvas.set_pixel(x, y, color)
+    canvas[x, y] = color
   end
 end
 
