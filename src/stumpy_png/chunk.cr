@@ -4,7 +4,7 @@ module StumpyPNG
   class Chunk
     property type : String
     property data : Slice(UInt8)
-    property crc  : UInt32
+    property crc : UInt32
 
     # Parse chunk data **without** size.
     def self.parse(slice : Slice(UInt8))

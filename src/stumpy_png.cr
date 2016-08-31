@@ -19,10 +19,10 @@ module StumpyPNG
     ihdr_io.write_bytes(canvas.width, IO::ByteFormat::BigEndian)
     ihdr_io.write_bytes(canvas.height, IO::ByteFormat::BigEndian)
     ihdr_io.write_byte 16_u8 # bit depth = 16 bit
-    ihdr_io.write_byte 6_u8 # color_type = rgba
-    ihdr_io.write_byte 0_u8 # compression = deflate
-    ihdr_io.write_byte 0_u8 # filter = adaptive
-    ihdr_io.write_byte 0_u8 # interlacing = none
+    ihdr_io.write_byte 6_u8  # color_type = rgba
+    ihdr_io.write_byte 0_u8  # compression = deflate
+    ihdr_io.write_byte 0_u8  # filter = adaptive
+    ihdr_io.write_byte 0_u8  # interlacing = none
 
     datastream.chunks << Chunk.new("IHDR", ihdr_io.to_slice)
 

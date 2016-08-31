@@ -9,11 +9,11 @@ module StumpyPNG
   class PNG
     # { name, valid bit depths, "fields" per pixel }
     COLOR_TYPES = {
-      0 => { ColorTypes::Grayscale, [1, 2, 4, 8, 16], 1 },
-      2 => { ColorTypes::RGB, [8, 16], 3 },
-      3 => { ColorTypes::Palette, [1, 2, 4, 8], 1 },
-      4 => { ColorTypes::GrayscaleAlpha, [8, 16], 2 },
-      6 => { ColorTypes::RGBAlpha, [8, 16], 4 },
+      0 => {ColorTypes::Grayscale, [1, 2, 4, 8, 16], 1},
+      2 => {ColorTypes::RGB, [8, 16], 3},
+      3 => {ColorTypes::Palette, [1, 2, 4, 8], 1},
+      4 => {ColorTypes::GrayscaleAlpha, [8, 16], 2},
+      6 => {ColorTypes::RGBAlpha, [8, 16], 4},
     }
 
     INTERLACE_METHODS = {
@@ -88,25 +88,25 @@ module StumpyPNG
     end
 
     def parse_IHDR(chunk : Chunk)
-      @width              = Utils.parse_integer(chunk.data[0, 4])
-      @height             = Utils.parse_integer(chunk.data[4, 4])
+      @width = Utils.parse_integer(chunk.data[0, 4])
+      @height = Utils.parse_integer(chunk.data[4, 4])
 
-      @bit_depth          = chunk.data[8]
-      @color_type         = chunk.data[9]
+      @bit_depth = chunk.data[8]
+      @color_type = chunk.data[9]
       raise "Invalid color type" unless COLOR_TYPES.has_key?(@color_type)
       unless COLOR_TYPES[@color_type][1].includes?(@bit_depth)
-        raise "Invalid bit depth for this color type" 
+        raise "Invalid bit depth for this color type"
       end
 
       @compression_method = chunk.data[10]
       raise "Invalid compression method" unless compression_method == 0
 
-      @filter_method      = chunk.data[11]
+      @filter_method = chunk.data[11]
       raise "Invalid filter method" unless filter_method == 0
 
-      @interlace_method   = chunk.data[12]
+      @interlace_method = chunk.data[12]
       unless INTERLACE_METHODS.has_key?(interlace_method)
-        raise "Invalid interlace method" 
+        raise "Invalid interlace method"
       end
     end
 
@@ -140,8 +140,8 @@ module StumpyPNG
     end
 
     def to_canvas_adam7
-      starting_row  = {0, 0, 4, 0, 2, 0, 1}
-      starting_col  = {0, 4, 0, 2, 0, 1, 0}
+      starting_row = {0, 0, 4, 0, 2, 0, 1}
+      starting_col = {0, 4, 0, 2, 0, 1, 0}
       row_increment = {8, 8, 8, 4, 4, 2, 2}
       col_increment = {8, 8, 4, 4, 2, 2, 1}
 
@@ -164,7 +164,6 @@ module StumpyPNG
           pass += 1
           next
         end
-
 
         line_start = 0
         while row < @height
@@ -205,5 +204,5 @@ module StumpyPNG
         parse_IEND(chunk)
       end
     end
- end
+  end
 end

@@ -50,7 +50,7 @@ module StumpyPNG
       (0...@width).each do |x|
         (from...to).each do |y|
           pixel = self[x, y]
-          cropped[x, y-from] = pixel
+          cropped[x, y - from] = pixel
         end
       end
 
@@ -59,9 +59,9 @@ module StumpyPNG
 
     def ==(other)
       self.class == other.class &&
-      @width == other.width &&
-      @height == other.height &&
-      @pixels == other.pixels
+        @width == other.width &&
+        @height == other.height &&
+        @pixels == other.pixels
     end
   end
 end
