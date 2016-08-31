@@ -131,7 +131,7 @@ module StumpyPNG
         x = 0
         values = Utils::NBitEnumerable.new(decoded, @bit_depth)
         COLOR_TYPES[@color_type][0].each_pixel(values, @bit_depth, @palette) do |pixel|
-          canvas.set_pixel(x, y, pixel)
+          canvas[x, y] = pixel
           x += 1
           break if x >= @width
         end
@@ -184,7 +184,7 @@ module StumpyPNG
 
           col = starting_col[pass]
           while col < @width
-            canvas.set_pixel(col, row, buffer.shift)
+            canvas[col, row] = buffer.shift
             col += col_increment[pass]
           end
           row += row_increment[pass]
