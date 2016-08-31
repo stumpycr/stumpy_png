@@ -35,12 +35,12 @@ module StumpyPNG
     end
 
     def self.from_gray_n(value, n)
-      gray  = Utils.scale_up(value, n)
+      gray = Utils.scale_up(value, n)
       RGBA.new(gray, gray, gray, UInt16::MAX)
     end
 
     def self.from_graya_n(values, n)
-      gray  = Utils.scale_up(values[0], n)
+      gray = Utils.scale_up(values[0], n)
       alpha = Utils.scale_up(values[1], n)
       RGBA.new(gray, gray, gray, alpha)
     end

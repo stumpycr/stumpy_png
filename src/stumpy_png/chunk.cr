@@ -3,26 +3,28 @@ require "./utils"
 module StumpyPNG
   class Chunk
     property type : String
-    property data : Array(UInt8)
-    property crc  : UInt32
+    property data : Slice(UInt8)
+    property crc : UInt32
 
-    def initialize(raw_)
-      @type = raw_[0, 4].map(&.chr).join("")
-      @crc = Utils.bytes_to_uint32(raw_[raw_.size - 4, 4])
-      @data = raw_[4, raw_.size - 8].to_a
+    # Parse chunk data **without** size.
+    def self.parse(slice : Slice(UInt8))
+      type = String.new slice[0, 4]
+      crc = Utils.bytes_to_uint32(slice[slice.size - 4, 4])
+      data = slice[4, slice.size - 8]
 
-      expected_crc = Zlib.crc32(raw_[0, raw_.size - 4])
+      expected_crc = Zlib.crc32(slice[0, slice.size - 4])
       raise "Incorrect checksum" if crc != expected_crc
+
+      Chunk.new(type, data, crc)
     end
 
-    def initialize(@type, @data)
-      s1 = Slice.new(@type.to_unsafe, @type.size)
-      s2 = Slice.new(@data.to_unsafe, @data.size)
-
-      if data.empty?
-        @crc = Zlib.crc32(s1).to_u32
+    def initialize(@type, @data, crc : UInt32? = nil)
+      if crc
+        @crc = crc
+      elsif data.empty?
+        @crc = Zlib.crc32(type).to_u32
       else
-        @crc = Zlib.crc32(s2, Zlib.crc32(s1)).to_u32
+        @crc = Zlib.crc32(data, Zlib.crc32(type)).to_u32
       end
     end
 
@@ -30,8 +32,19 @@ module StumpyPNG
       @data.size
     end
 
-    def raw : Array(UInt8)
-      @type.chars.map { |c| c.ord.to_u8 } + @data + Utils.uint32_to_bytes(@crc).to_a
+    # Returns chunk data **with** size as a `Slice(UInt8)`.
+    def raw : Slice(UInt8)
+      io = MemoryIO.new
+      write(io)
+      io.to_slice
+    end
+
+    # Write chunk data to *io* **with** size.
+    def write(io : IO)
+      io.write_bytes(size, IO::ByteFormat::BigEndian)
+      io << @type
+      io.write(@data)
+      io.write_bytes(@crc, IO::ByteFormat::BigEndian)
     end
   end
 end

@@ -10,11 +10,11 @@ module StumpyPNG
       @pixels = Slice.new(@width * @height, background)
     end
 
-    def set_pixel(x, y, color)
+    def []=(x, y, color)
       @pixels[x + @width * y] = color
     end
 
-    def get_pixel(x, y)
+    def [](x, y)
       @pixels[x + @width * y]
     end
 
@@ -33,7 +33,7 @@ module StumpyPNG
 
       (0...@width).each do |x|
         (0...@height).each do |y|
-          rotated.set_pixel(y, x, get_pixel(x, y))
+          rotated[y, x] = self[x, y]
         end
       end
 
@@ -49,8 +49,8 @@ module StumpyPNG
 
       (0...@width).each do |x|
         (from...to).each do |y|
-          pixel = get_pixel(x, y)
-          cropped.set_pixel(x, y-from, pixel)
+          pixel = self[x, y]
+          cropped[x, y - from] = pixel
         end
       end
 
@@ -59,9 +59,9 @@ module StumpyPNG
 
     def ==(other)
       self.class == other.class &&
-      @width == other.width &&
-      @height == other.height &&
-      @pixels == other.pixels
+        @width == other.width &&
+        @height == other.height &&
+        @pixels == other.pixels
     end
   end
 end

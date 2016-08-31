@@ -54,7 +54,7 @@ module StumpyPNG
     class NBitEnumerable
       include Enumerable(UInt16)
 
-      property values : Array(UInt8)
+      property values : Slice(UInt8)
       property size
 
       def initialize(@values, @size = 8_u8)
