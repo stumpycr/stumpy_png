@@ -8,47 +8,52 @@ module StumpyPNG
 
     HEADER = 0x89504e470d0a1a0a
 
-    def initialize
-      @chunks = [] of Chunk
+    def initialize(@chunks = [] of Chunk)
     end
 
     def self.read(path)
-      datastream = Datastream.new
-
       File.open(path) do |file|
-        unless file.read_bytes(UInt64, IO::ByteFormat::BigEndian) == HEADER
-          raise "Not a png file"
-        end
-
-        until file.pos == file.size
-          chunk_length = file.read_bytes(UInt32, IO::ByteFormat::BigEndian)
-          chunk_data = Slice(UInt8).new(chunk_length + 4 + 4)
-          file.read_fully(chunk_data)
-          datastream.chunks << Chunk.new(chunk_data)
-        end
+        read(file)
       end
-
-      datastream
     end
 
-    def raw
-      bytes = [] of UInt8
+    def self.read(io : IO)
+      raise "Not a png file" unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == HEADER
 
-      @chunks.each do |chunk|
-        # [chunk length][chunk raw = type, data, crc]
-        bytes.concat Utils.uint32_to_bytes(chunk.size)
-        bytes.concat chunk.raw
+      chunks = [] of Chunk
+
+      loop do
+        begin
+          chunk_length = io.read_bytes(UInt32, IO::ByteFormat::BigEndian)
+        rescue IO::EOFError
+          break
+        end
+
+        chunk_data = Slice(UInt8).new(chunk_length + 4 + 4)
+        io.read_fully(chunk_data)
+
+        chunks << Chunk.parse(chunk_data)
       end
 
-      bytes
+      Datastream.new chunks
     end
 
-    def write(path)
+    def raw : Slice(UInt8)
+      io = MemoryIO.new
+      write(io)
+      io.to_slice
+    end
+
+    def write(path : String)
       File.open(path, "w") do |file|
-        file.write_bytes(HEADER, IO::ByteFormat::BigEndian)
-        raw.each do |byte|
-          file.write_byte(byte)
-        end
+        write(file)
+      end
+    end
+
+    def write(io : IO)
+      io.write_bytes(HEADER, IO::ByteFormat::BigEndian)
+      @chunks.each do |chunk|
+        chunk.write(io)
       end
     end
   end

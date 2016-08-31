@@ -15,13 +15,16 @@ module StumpyPNG
   def self.write(canvas, path)
     datastream = Datastream.new
 
-    ihdr_data = [] of UInt8
-    ihdr_data.concat Utils.uint32_to_bytes(canvas.width)
-    ihdr_data.concat Utils.uint32_to_bytes(canvas.height)
-    # bit depth = 16 bit, color_type = rgba, compression = filter = interlacing = none
-    ihdr_data.concat({16_u8, 6_u8, 0_u8, 0_u8, 0_u8})
+    ihdr_io = MemoryIO.new(13)
+    ihdr_io.write_bytes(canvas.width, IO::ByteFormat::BigEndian)
+    ihdr_io.write_bytes(canvas.height, IO::ByteFormat::BigEndian)
+    ihdr_io.write_byte 16_u8 # bit depth = 16 bit
+    ihdr_io.write_byte 6_u8 # color_type = rgba
+    ihdr_io.write_byte 0_u8 # compression = deflate
+    ihdr_io.write_byte 0_u8 # filter = adaptive
+    ihdr_io.write_byte 0_u8 # interlacing = none
 
-    datastream.chunks << Chunk.new("IHDR", ihdr_data)
+    datastream.chunks << Chunk.new("IHDR", ihdr_io.to_slice)
 
     buffer = MemoryIO.new
 
@@ -29,23 +32,21 @@ module StumpyPNG
       buffer.write_byte(0_u8) # filter = none
       col.each do |pixel|
         {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
-          Utils.uint16_to_bytes(value).each do |byte|
-            buffer.write_byte(byte)
-          end
+          buffer.write_bytes(value, IO::ByteFormat::BigEndian)
         end
       end
     end
 
     # Reset buffer position
     buffer.pos = 0
+
     compressed = MemoryIO.new
     Zlib::Deflate.new(compressed) do |deflate|
       IO.copy(buffer, deflate)
     end
-    compressed.pos = 0
 
-    datastream.chunks << Chunk.new("IDAT", compressed.gets_to_end.bytes)
-    datastream.chunks << Chunk.new("IEND", [] of UInt8)
+    datastream.chunks << Chunk.new("IDAT", compressed.to_slice)
+    datastream.chunks << Chunk.new("IEND", Slice(UInt8).new(0))
     datastream.write(path)
   end
 end
