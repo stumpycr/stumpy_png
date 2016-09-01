@@ -1,4 +1,5 @@
 # stumpy_png
+[![Build Status](https://travis-ci.org/l3kn/stumpy_png.svg?branch=master)](https://travis-ci.org/l3kn/stumpy_png)
 
 ## Interface
 
