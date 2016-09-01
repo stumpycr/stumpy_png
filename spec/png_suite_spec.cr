@@ -1,5 +1,4 @@
 require "minitest/autorun"
-
 require "../src/stumpy_png"
 
 module StumpyPNG
@@ -21,37 +20,37 @@ module StumpyPNG
     end
 
     def test_basic_formats
-      image_test_helper("./test/png_suite/basic_formats/*.png")
+      image_test_helper("./spec/png_suite/basic_formats/*.png")
     end
 
     def test_image_filtering
-      image_test_helper("./test/png_suite/image_filtering/*.png")
+      image_test_helper("./spec/png_suite/image_filtering/*.png")
     end
 
     def test_chunk_ordering
-      image_test_helper("./test/png_suite/chunk_ordering/*.png")
+      image_test_helper("./spec/png_suite/chunk_ordering/*.png")
     end
 
     def test_interlacing
-      image_test_helper("./test/png_suite/interlacing/*.png")
+      image_test_helper("./spec/png_suite/interlacing/*.png")
     end
 
     def test_odd_sizes
-      image_test_helper("./test/png_suite/odd_sizes/*.png")
+      image_test_helper("./spec/png_suite/odd_sizes/*.png")
     end
 
     def test_zlib_compression
-      image_test_helper("./test/png_suite/zlib_compression/*.png")
+      image_test_helper("./spec/png_suite/zlib_compression/*.png")
     end
 
     def test_corrupted_files__invalid_signature
       images = %w(
-        ./test/png_suite/corrupted_files/xs1n0g01.png
-        ./test/png_suite/corrupted_files/xs2n0g01.png
-        ./test/png_suite/corrupted_files/xs4n0g01.png
-        ./test/png_suite/corrupted_files/xs7n0g01.png
-        ./test/png_suite/corrupted_files/xcrn0g04.png
-        ./test/png_suite/corrupted_files/xlfn0g04.png
+        ./spec/png_suite/corrupted_files/xs1n0g01.png
+        ./spec/png_suite/corrupted_files/xs2n0g01.png
+        ./spec/png_suite/corrupted_files/xs4n0g01.png
+        ./spec/png_suite/corrupted_files/xs7n0g01.png
+        ./spec/png_suite/corrupted_files/xcrn0g04.png
+        ./spec/png_suite/corrupted_files/xlfn0g04.png
       )
 
       images.each do |image|
@@ -64,8 +63,8 @@ module StumpyPNG
 
     def test_corrupted_files__invalid_color_type
       images = %w(
-        ./test/png_suite/corrupted_files/xc1n0g08.png
-        ./test/png_suite/corrupted_files/xc9n2c08.png
+        ./spec/png_suite/corrupted_files/xc1n0g08.png
+        ./spec/png_suite/corrupted_files/xc9n2c08.png
       )
 
       images.each do |image|
@@ -78,9 +77,9 @@ module StumpyPNG
 
     def test_corrupted_files__invalid_color_type
       images = %w(
-        ./test/png_suite/corrupted_files/xd0n2c08.png
-        ./test/png_suite/corrupted_files/xd3n2c08.png
-        ./test/png_suite/corrupted_files/xd9n2c08.png
+        ./spec/png_suite/corrupted_files/xd0n2c08.png
+        ./spec/png_suite/corrupted_files/xd3n2c08.png
+        ./spec/png_suite/corrupted_files/xd9n2c08.png
       )
 
       images.each do |image|
@@ -92,7 +91,7 @@ module StumpyPNG
     end
 
     def test_corrupted_files__missing_IDAT_chunk
-      image = "./test/png_suite/corrupted_files/xdtn0g01.png"
+      image = "./spec/png_suite/corrupted_files/xdtn0g01.png"
       err = assert_raises Exception do
         StumpyPNG.read(image)
       end
@@ -100,7 +99,7 @@ module StumpyPNG
     end
 
     def test_corrupted_files__incorrect_IDAT_checksum
-      image = "./test/png_suite/corrupted_files/xcsn0g01.png"
+      image = "./spec/png_suite/corrupted_files/xcsn0g01.png"
       err = assert_raises Exception do
         StumpyPNG.read(image)
       end
