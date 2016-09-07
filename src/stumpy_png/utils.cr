@@ -34,11 +34,11 @@ module StumpyPNG
       pc = (p - c).abs
 
       if pa <= pb && pa <= pc
-        return a.to_u8
+        a.to_u8
       elsif pb <= pc
-        return b.to_u8
+        b.to_u8
       else
-        return c.to_u8
+        c.to_u8
       end
     end
 

@@ -9,24 +9,16 @@ module StumpyPNG
   class PNG
     # { name, valid bit depths, "fields" per pixel }
     COLOR_TYPES = {
-      0 => {ColorTypes::Grayscale, [1, 2, 4, 8, 16], 1},
-      2 => {ColorTypes::RGB, [8, 16], 3},
-      3 => {ColorTypes::Palette, [1, 2, 4, 8], 1},
-      4 => {ColorTypes::GrayscaleAlpha, [8, 16], 2},
-      6 => {ColorTypes::RGBAlpha, [8, 16], 4},
+      0 => {:grayscale, [1, 2, 4, 8, 16], 1},
+      2 => {:rgb, [8, 16], 3},
+      3 => {:palette, [1, 2, 4, 8], 1},
+      4 => {:grayscale_alpha, [8, 16], 2},
+      6 => {:rgb_alpha, [8, 16], 4},
     }
 
     INTERLACE_METHODS = {
       0 => :no_interlace,
       1 => :adam7,
-    }
-
-    FILTERS = {
-      0 => Filters::None,
-      1 => Filters::Sub,
-      2 => Filters::Up,
-      3 => Filters::Average,
-      4 => Filters::Paeth,
     }
 
     getter width : Int32, height : Int32
@@ -119,17 +111,16 @@ module StumpyPNG
       data_pos = 0
       @height.times do |y|
         filter = @data[data_pos]
-        raise "Unknown filter type #{filter}" unless FILTERS.has_key?(filter)
 
         scanline = @data[data_pos + 1, scanline_width]
-        decoded = FILTERS[filter].apply(scanline, prior_scanline, bpp)
+        decoded = Filter.apply(scanline, prior_scanline, bpp, filter)
 
         prior_scanline = decoded
         data_pos += scanline_width + 1
 
         x = 0
         values = Utils::NBitEnumerable.new(decoded, @bit_depth)
-        COLOR_TYPES[@color_type][0].each_pixel(values, @bit_depth, @palette) do |pixel|
+        ColorTypes.decode(values, @bit_depth, @palette, color_type) do |pixel|
           canvas[x, y] = pixel
           x += 1
           break if x >= @width
@@ -168,17 +159,16 @@ module StumpyPNG
         line_start = 0
         while row < @height
           filter = @data[data_pos]
-          raise "Unknown filter type #{filter}" unless FILTERS.has_key?(filter)
 
           scanline = @data[data_pos + 1, scanline_width]
-          decoded = FILTERS[filter].apply(scanline, prior_scanline, bpp)
+          decoded = Filter.apply(scanline, prior_scanline, bpp, filter)
 
           prior_scanline = decoded
           data_pos += scanline_width + 1
 
           col = starting_col[pass]
           values = Utils::NBitEnumerable.new(decoded, @bit_depth)
-          COLOR_TYPES[@color_type][0].each_pixel(values, @bit_depth, @palette) do |pixel|
+          ColorTypes.decode(values, @bit_depth, @palette, color_type) do |pixel|
             canvas[col, row] = pixel
             col += col_increment[pass]
             break if col >= @width
@@ -194,7 +184,7 @@ module StumpyPNG
 
     def parse_chunk(chunk)
       case chunk.type
-      when "IHDR"
+      when "IHDR";
         parse_IHDR(chunk)
       when "PLTE"
         parse_PLTE(chunk)
