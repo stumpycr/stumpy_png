@@ -104,7 +104,7 @@ module StumpyPNG
 
     def to_canvas_none
       canvas = Canvas.new(@width, @height)
-      bpp = ([8, @bit_depth].max / 8 * COLOR_TYPES[@color_type][2]).to_i32
+      bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
       scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * @width).ceil.to_i32
       prior_scanline = Slice(UInt8).new(0)
 
@@ -142,7 +142,7 @@ module StumpyPNG
       data_pos = 0
 
       canvas = Canvas.new(@width, @height)
-      bpp = ([8, @bit_depth].max / 8 * COLOR_TYPES[@color_type][2]).to_i32
+      bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
 
       while pass < 7
         prior_scanline = Slice(UInt8).new(0)
@@ -184,7 +184,7 @@ module StumpyPNG
 
     def parse_chunk(chunk)
       case chunk.type
-      when "IHDR";
+      when "IHDR"
         parse_IHDR(chunk)
       when "PLTE"
         parse_PLTE(chunk)
