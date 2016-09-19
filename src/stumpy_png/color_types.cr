@@ -1,4 +1,5 @@
-require "./rgba"
+require "stumpy_core"
+include StumpyCore
 
 module StumpyPNG
   module ColorTypes

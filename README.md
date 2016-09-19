@@ -5,29 +5,8 @@
 
 * `StumpyPNG.read(path) : Canvas` read a PNG image file
 * `StumpyPNG.write(canvas, path)` saves a canvas as a PNG image file
-
-* `StumpyPNG::RGBA`, 16-bit rgba color
-  * `rgba.r` red channel
-  * `rgba.g` green channel
-  * `rgba.b` blue channel
-  * `rgba.a` alpha channel
-  * `rgba.to_rgba8` returns a tuple of 4 8-bit values `{ r, g, b, a}`
-  * `rgba.to_rgb8` returns a tuple of 3 8-bit values  `{ r, g, b }`
-  * Helper functions to create colors from n-bit values:
-    * `StumpyPNG::RGBA.from_gray_n(grayscale_value, n)`
-    * `StumpyPNG::RGBA.from_graya_n(grayscale_value, alpha, n)`
-    * `StumpyPNG::RGBA.from_rgb_n(r, g, b, n)`
-    * `StumpyPNG::RGBA.from_rgba_n(r, g, b, alpha, n)`
-    * All of the above (except `from_gray_n`) work with tuples/arrays, too
-      (`StumpyPNG::RGBA.from_rgba_n({r, g, b, alpha}, n)`
-
-* `StumpyPNG::Canvas`, two dimensional Array of RGBA value
-  * `canvas.width`
-  * `canvas.height`
-  * `canvas[x, y]=`
-  * `canvas[x, y]`
-
 * `StumpyPNG::PNG`, helper class to store some state while parsing PNG files
+* `Canvas` and `RGBA` from [stumpy_core](https://github.com/l3kn/stumpy_core)
 
 ## Usage
 

@@ -1,8 +1,13 @@
 name: stumpy_png
-version: 2.1.1
+version: 3.0.0
 
 authors:
   - Leon Rische <hello@l3kn.de>
+
+dependencies:
+  stumpy_core:
+    git: https://github.com/l3kn/stumpy_core.git
+    version: -> 0.1.0
 
 development_dependencies:
   minitest:

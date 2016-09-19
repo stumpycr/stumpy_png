@@ -4,3 +4,7 @@ shards:
     git: https://github.com/ysbaddaden/minitest.cr.git
     version: 0.3.4
 
+  stumpy_core:
+    git: https://github.com/l3kn/stumpy_core.git
+    commit: ad801752a9be6aff29a4754497c0aa826b7acfb9
+
