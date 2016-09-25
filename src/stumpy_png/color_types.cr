@@ -1,6 +1,3 @@
-require "stumpy_core"
-include StumpyCore
-
 module StumpyPNG
   module ColorTypes
     def self.decode(values, bit_depth, palette, color_type, &block)

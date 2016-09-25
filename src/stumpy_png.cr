@@ -1,7 +1,10 @@
 require "zlib"
+require "stumpy_core"
 require "./stumpy_png/png"
 
 module StumpyPNG
+  include StumpyCore
+
   def self.read(path)
     png = PNG.new
 

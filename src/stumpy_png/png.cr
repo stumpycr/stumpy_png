@@ -1,10 +1,7 @@
-require "stumpy_core"
 require "./utils"
 require "./datastream"
 require "./filters"
 require "./color_types"
-
-include StumpyCore
 
 module StumpyPNG
   class PNG
