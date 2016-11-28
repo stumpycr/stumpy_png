@@ -3,11 +3,11 @@ require "./utils"
 module StumpyPNG
   class Chunk
     property type : String
-    property data : Slice(UInt8)
+    property data : Bytes
     property crc : UInt32
 
     # Parse chunk data **without** size.
-    def self.parse(slice : Slice(UInt8))
+    def self.parse(slice : Bytes)
       type = String.new slice[0, 4]
       crc = Utils.bytes_to_uint32(slice[slice.size - 4, 4])
       data = slice[4, slice.size - 8]
@@ -32,9 +32,9 @@ module StumpyPNG
       @data.size
     end
 
-    # Returns chunk data **with** size as a `Slice(UInt8)`.
-    def raw : Slice(UInt8)
-      io = MemoryIO.new
+    # Returns chunk data **with** size as a `Bytes`.
+    def raw : Bytes
+      io = IO::Memory.new
       write(io)
       io.to_slice
     end

@@ -2,9 +2,9 @@ version: 1.0
 shards:
   minitest:
     git: https://github.com/ysbaddaden/minitest.cr.git
-    version: 0.3.4
+    version: 0.3.5
 
   stumpy_core:
     git: https://github.com/l3kn/stumpy_core.git
-    commit: ad801752a9be6aff29a4754497c0aa826b7acfb9
+    commit: 5ead919871579b164233a287fc6c519a29ffeb95
 

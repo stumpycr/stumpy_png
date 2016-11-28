@@ -29,7 +29,7 @@ module StumpyPNG
           break
         end
 
-        chunk_data = Slice(UInt8).new(chunk_length + 4 + 4)
+        chunk_data = Bytes.new(chunk_length + 4 + 4)
         io.read_fully(chunk_data)
 
         chunks << Chunk.parse(chunk_data)
@@ -38,8 +38,8 @@ module StumpyPNG
       Datastream.new chunks
     end
 
-    def raw : Slice(UInt8)
-      io = MemoryIO.new
+    def raw : Bytes
+      io = IO::Memory.new
       write(io)
       io.to_slice
     end
