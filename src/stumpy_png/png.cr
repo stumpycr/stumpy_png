@@ -1,6 +1,7 @@
 require "./utils"
 require "./datastream"
 require "./filters"
+require "./scanline"
 require "./color_types"
 
 module StumpyPNG
@@ -100,6 +101,7 @@ module StumpyPNG
       end
     end
 
+
     def to_canvas_none
       canvas = Canvas.new(@width, @height)
       bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
@@ -116,12 +118,37 @@ module StumpyPNG
 
         data_pos += scanline_width + 1
 
-        x = 0
-        values = Utils::NBitEnumerable.new(decoded, @bit_depth)
-        ColorTypes.decode(values, @bit_depth, @palette, color_type) do |pixel|
-          canvas[x, y] = pixel
-          x += 1
-          break if x >= @width
+        case {color_type, bit_depth}
+        when {0, 1} # Grayscale
+          Scanline.decode_grayscale_1(decoded, canvas, y)
+        when {0, 2} # Grayscale
+          Scanline.decode_grayscale_2(decoded, canvas, y)
+        when {0, 4} # Grayscale
+          Scanline.decode_grayscale_4(decoded, canvas, y)
+        when {0, 8} # Grayscale
+          Scanline.decode_grayscale_8(decoded, canvas, y)
+        when {0, 16} # Grayscale
+          Scanline.decode_grayscale_16(decoded, canvas, y)
+        when {4, 8} # Grayscale
+          Scanline.decode_grayscale_alpha_8(decoded, canvas, y)
+        when {4, 16} # Grayscale
+          Scanline.decode_grayscale_alpha_16(decoded, canvas, y)
+        when {2, 8} # RGB
+          Scanline.decode_rgb_8(decoded, canvas, y)
+        when {2, 16} # RGB
+          Scanline.decode_rgb_16(decoded, canvas, y)
+        when {6, 8} # RGBA
+          Scanline.decode_rgb_alpha_8(decoded, canvas, y)
+        when {6, 16} # RGBA
+          Scanline.decode_rgb_alpha_16(decoded, canvas, y)
+        when {3, 1} 
+          Scanline.decode_palette_1(decoded, canvas, y, palette)
+        when {3, 2} 
+          Scanline.decode_palette_2(decoded, canvas, y, palette)
+        when {3, 4} 
+          Scanline.decode_palette_4(decoded, canvas, y, palette)
+        when {3, 8} 
+          Scanline.decode_palette_8(decoded, canvas, y, palette)
         end
 
         if prior_scanline
