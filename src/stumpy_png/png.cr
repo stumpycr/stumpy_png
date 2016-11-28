@@ -36,10 +36,10 @@ module StumpyPNG
       @interlace_method = 0_u8
 
       @palette = [] of RGBA
-      @idat_buffer = MemoryIO.new
+      @idat_buffer = IO::Memory.new
       @parsed = false
 
-      @data = Slice(UInt8).new(0)
+      @data = Bytes.new(0)
 
       @idat_count = 0
 
@@ -53,7 +53,7 @@ module StumpyPNG
       @idat_buffer.pos = 0
 
       contents = Zlib::Inflate.new(@idat_buffer) do |inflate|
-        io = MemoryIO.new
+        io = IO::Memory.new
         IO.copy(inflate, io)
         @data = io.to_slice
       end
@@ -104,16 +104,16 @@ module StumpyPNG
       canvas = Canvas.new(@width, @height)
       bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
       scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * @width).ceil.to_i32
-      prior_scanline = Slice(UInt8).new(0)
+      prior_scanline = nil
+      decoded = Bytes.new(scanline_width)
 
       data_pos = 0
       @height.times do |y|
         filter = @data[data_pos]
 
         scanline = @data[data_pos + 1, scanline_width]
-        decoded = Filter.apply(scanline, prior_scanline, bpp, filter)
+        decoded = Filter.apply(scanline, prior_scanline, decoded, bpp, filter)
 
-        prior_scanline = decoded
         data_pos += scanline_width + 1
 
         x = 0
@@ -122,6 +122,13 @@ module StumpyPNG
           canvas[x, y] = pixel
           x += 1
           break if x >= @width
+        end
+
+        if prior_scanline
+          prior_scanline, decoded = decoded, prior_scanline
+        else
+          prior_scanline = decoded
+          decoded = Bytes.new(scanline_width)
         end
       end
 
@@ -143,7 +150,7 @@ module StumpyPNG
       bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
 
       while pass < 7
-        prior_scanline = Slice(UInt8).new(0)
+        prior_scanline = nil
         row = starting_row[pass]
 
         scanline_width_ = {0, ((@width - starting_col[pass]).to_f / col_increment[pass]).ceil}.max
@@ -154,14 +161,15 @@ module StumpyPNG
           next
         end
 
+        decoded = Bytes.new(scanline_width)
+
         line_start = 0
         while row < @height
           filter = @data[data_pos]
 
           scanline = @data[data_pos + 1, scanline_width]
-          decoded = Filter.apply(scanline, prior_scanline, bpp, filter)
+          decoded = Filter.apply(scanline, prior_scanline, decoded, bpp, filter)
 
-          prior_scanline = decoded
           data_pos += scanline_width + 1
 
           col = starting_col[pass]
@@ -173,6 +181,13 @@ module StumpyPNG
           end
 
           row += row_increment[pass]
+
+          if prior_scanline
+            prior_scanline, decoded = decoded, prior_scanline
+          else
+            prior_scanline = decoded
+            decoded = Bytes.new(scanline_width)
+          end
         end
         pass += 1
       end

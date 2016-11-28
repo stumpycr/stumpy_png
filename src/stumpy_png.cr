@@ -18,7 +18,7 @@ module StumpyPNG
   def self.write(canvas, path)
     datastream = Datastream.new
 
-    ihdr_io = MemoryIO.new(13)
+    ihdr_io = IO::Memory.new(13)
     ihdr_io.write_bytes(canvas.width, IO::ByteFormat::BigEndian)
     ihdr_io.write_bytes(canvas.height, IO::ByteFormat::BigEndian)
     ihdr_io.write_byte 16_u8 # bit depth = 16 bit
@@ -29,7 +29,7 @@ module StumpyPNG
 
     datastream.chunks << Chunk.new("IHDR", ihdr_io.to_slice)
 
-    buffer = MemoryIO.new
+    buffer = IO::Memory.new
 
     canvas.each_column do |col|
       buffer.write_byte(0_u8) # filter = none
@@ -43,13 +43,13 @@ module StumpyPNG
     # Reset buffer position
     buffer.pos = 0
 
-    compressed = MemoryIO.new
+    compressed = IO::Memory.new
     Zlib::Deflate.new(compressed) do |deflate|
       IO.copy(buffer, deflate)
     end
 
     datastream.chunks << Chunk.new("IDAT", compressed.to_slice)
-    datastream.chunks << Chunk.new("IEND", Slice(UInt8).new(0))
+    datastream.chunks << Chunk.new("IEND", Bytes.new(0))
     datastream.write(path)
   end
 end

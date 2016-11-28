@@ -17,7 +17,7 @@ module StumpyPNG
     end
 
     def self.read_n_byte(file, n)
-      slice = Slice(UInt8).new(n)
+      slice = Bytes.new(n)
       file.read_fully(slice)
       slice.to_a
     end
@@ -42,10 +42,10 @@ module StumpyPNG
       end
     end
 
-    class NBitEnumerable
+    struct NBitEnumerable
       include Enumerable(UInt16)
 
-      property values : Slice(UInt8)
+      property values : Bytes
       property size
 
       def initialize(@values, @size = 8_u8)

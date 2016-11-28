@@ -5,13 +5,58 @@ module StumpyPNG
       when 0 # Grayscale
         values.each { |gray| yield RGBA.from_gray_n(gray, bit_depth) }
       when 2 # RGB
-        values.each_slice(3) { |rgb| yield RGBA.from_rgb_n(rgb, bit_depth) }
+        decode2(values, bit_depth, palette) do |pixel|
+          yield pixel
+        end
       when 3 # Palette
         values.each { |index| yield palette[index] }
       when 4 # GrayscaleAlpha
-        values.each_slice(2) { |graya| yield RGBA.from_graya_n(graya, bit_depth) }
+        decode4(values, bit_depth, palette) do |pixel|
+          yield pixel
+        end
       when 6 # RGBAlpha
-        values.each_slice(4) { |rgba| yield RGBA.from_rgba_n(rgba, bit_depth) }
+        decode6(values, bit_depth, palette) do |pixel|
+          yield pixel
+        end
+      end
+    end
+
+    private def self.decode2(values, bit_depth, palette, &block)
+      buf = uninitialized UInt16[3]
+      i = 0
+      values.each do |value|
+        buf[i] = value
+        i += 1
+        if i == 3
+          yield RGBA.from_rgb_n(buf, bit_depth)
+          i = 0
+        end
+      end
+    end
+
+    private def self.decode4(values, bit_depth, palette, &block)
+      buf = uninitialized UInt16[2]
+      i = 0
+      values.each do |value|
+        buf[i] = value
+        i += 1
+        if i == 2
+          yield RGBA.from_graya_n(buf, bit_depth)
+          i = 0
+        end
+      end
+    end
+
+    private def self.decode6(values, bit_depth, palette, &block)
+      buf = uninitialized UInt16[4]
+      i = 0
+      values.each do |value|
+        buf[i] = value
+        i += 1
+        if i == 4
+          yield RGBA.from_rgba_n(buf.to_slice, bit_depth)
+          i = 0
+        end
       end
     end
   end
