@@ -1,0 +1,25 @@
+{
+  "projectName": "stumpy_png",
+  "projectOwner": "l3kn",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "RX14",
+      "name": "Chris Hobbs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2788811?v=3",
+      "profile": "http://www.rx14.co.uk",
+      "contributions": []
+    },
+    {
+      "login": "asterite",
+      "name": "Ary Borenszweig",
+      "avatar_url": "https://avatars.githubusercontent.com/u/209371?v=3",
+      "profile": "http://manas.com.ar",
+      "contributions": []
+    }
+  ]
+}

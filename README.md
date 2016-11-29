@@ -87,3 +87,14 @@ StumpyPNG.write(canvas, "rainbow.png")
 
 Only supports writing to a RGB + Alpha PNG image
 without any filters, interlacing or ancillary chunks.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/><br /><sub>Chris Hobbs</sub>](http://www.rx14.co.uk)<br /> | [<img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/><br /><sub>Ary Borenszweig</sub>](http://manas.com.ar)<br /> |
+| :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

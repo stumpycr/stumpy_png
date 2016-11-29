@@ -1,7 +1,7 @@
 require "./utils"
 require "./datastream"
 require "./filters"
-require "./color_types"
+require "./scanline"
 
 module StumpyPNG
   class PNG
@@ -102,6 +102,7 @@ module StumpyPNG
 
     def to_canvas_none
       canvas = Canvas.new(@width, @height)
+
       bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
       scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * @width).ceil.to_i32
       prior_scanline = nil
@@ -116,12 +117,12 @@ module StumpyPNG
 
         data_pos += scanline_width + 1
 
-        x = 0
-        values = Utils::NBitEnumerable.new(decoded, @bit_depth)
-        ColorTypes.decode(values, @bit_depth, @palette, color_type) do |pixel|
-          canvas[x, y] = pixel
-          x += 1
-          break if x >= @width
+        case color_type
+        when 0; Scanline.decode_grayscale(decoded, canvas, y, bit_depth)
+        when 4; Scanline.decode_grayscale_alpha(decoded, canvas, y, bit_depth)
+        when 2; Scanline.decode_rgb(decoded, canvas, y, bit_depth)
+        when 6; Scanline.decode_rgb_alpha(decoded, canvas, y, bit_depth)
+        when 3; Scanline.decode_palette(decoded, canvas, y, palette, bit_depth)
         end
 
         if prior_scanline
@@ -172,12 +173,27 @@ module StumpyPNG
 
           data_pos += scanline_width + 1
 
+          # TODO: This is definitely not the best way to do this
+          # because so many intermediate canvases are created.
+          # (Should not matter that much, because adam7 encoded png should be pretty rare)
+
           col = starting_col[pass]
-          values = Utils::NBitEnumerable.new(decoded, @bit_depth)
-          ColorTypes.decode(values, @bit_depth, @palette, color_type) do |pixel|
-            canvas[col, row] = pixel
+          increment = col_increment[pass]
+
+          line_width = scanline_width_.to_i32
+          line_canvas = Canvas.new(line_width, 1)
+
+          case color_type
+          when 0; Scanline.decode_grayscale(decoded, line_canvas, 0, bit_depth)
+          when 4; Scanline.decode_grayscale_alpha(decoded, line_canvas, 0, bit_depth)
+          when 2; Scanline.decode_rgb(decoded, line_canvas, 0, bit_depth)
+          when 6; Scanline.decode_rgb_alpha(decoded, line_canvas, 0, bit_depth)
+          when 3; Scanline.decode_palette(decoded, line_canvas, 0, palette, bit_depth)
+          end
+
+          (0...line_width).each do |x|
+            canvas[col, row] = line_canvas[x, 0]
             col += col_increment[pass]
-            break if col >= @width
           end
 
           row += row_increment[pass]
@@ -197,14 +213,10 @@ module StumpyPNG
 
     def parse_chunk(chunk)
       case chunk.type
-      when "IHDR"
-        parse_IHDR(chunk)
-      when "PLTE"
-        parse_PLTE(chunk)
-      when "IDAT"
-        parse_IDAT(chunk)
-      when "IEND"
-        parse_IEND(chunk)
+      when "IHDR"; parse_IHDR(chunk)
+      when "PLTE"; parse_PLTE(chunk)
+      when "IDAT"; parse_IDAT(chunk)
+      when "IEND"; parse_IEND(chunk)
       end
     end
   end

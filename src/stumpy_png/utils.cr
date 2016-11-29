@@ -41,46 +41,5 @@ module StumpyPNG
         c.to_u8
       end
     end
-
-    struct NBitEnumerable
-      include Enumerable(UInt16)
-
-      property values : Bytes
-      property size
-
-      def initialize(@values, @size = 8_u8)
-      end
-
-      def each(&block)
-        case @size
-        when 1
-          values.each do |byte|
-            (0...8).reverse_each do |n|
-              yield ((byte & (0b1 << n)) >> n).to_u16
-            end
-          end
-        when 2
-          values.each do |byte|
-            (0...4).reverse_each do |n|
-              yield ((byte & (0b11 << (n * 2))) >> (n * 2)).to_u16
-            end
-          end
-        when 4
-          values.each do |byte|
-            (0...2).reverse_each do |n|
-              yield ((byte & (0b1111 << (n * 4))) >> (n * 4)).to_u16
-            end
-          end
-        when 8
-          values.each do |byte|
-            yield byte.to_u16
-          end
-        when 16
-          values.each_slice(2) do |bytes|
-            yield Utils.parse_integer(bytes).to_u16
-          end
-        end
-      end
-    end
   end
 end
