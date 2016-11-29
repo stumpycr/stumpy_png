@@ -2,7 +2,6 @@ require "./utils"
 require "./datastream"
 require "./filters"
 require "./scanline"
-require "./color_types"
 
 module StumpyPNG
   class PNG
