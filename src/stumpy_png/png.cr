@@ -101,9 +101,9 @@ module StumpyPNG
       end
     end
 
-
     def to_canvas_none
       canvas = Canvas.new(@width, @height)
+
       bpp = ({8, @bit_depth}.max / 8 * COLOR_TYPES[@color_type][2]).to_i32
       scanline_width = (@bit_depth.to_f / 8 * COLOR_TYPES[@color_type][2] * @width).ceil.to_i32
       prior_scanline = nil
@@ -118,37 +118,17 @@ module StumpyPNG
 
         data_pos += scanline_width + 1
 
-        case {color_type, bit_depth}
-        when {0, 1} # Grayscale
-          Scanline.decode_grayscale_1(decoded, canvas, y)
-        when {0, 2} # Grayscale
-          Scanline.decode_grayscale_2(decoded, canvas, y)
-        when {0, 4} # Grayscale
-          Scanline.decode_grayscale_4(decoded, canvas, y)
-        when {0, 8} # Grayscale
-          Scanline.decode_grayscale_8(decoded, canvas, y)
-        when {0, 16} # Grayscale
-          Scanline.decode_grayscale_16(decoded, canvas, y)
-        when {4, 8} # Grayscale
-          Scanline.decode_grayscale_alpha_8(decoded, canvas, y)
-        when {4, 16} # Grayscale
-          Scanline.decode_grayscale_alpha_16(decoded, canvas, y)
-        when {2, 8} # RGB
-          Scanline.decode_rgb_8(decoded, canvas, y)
-        when {2, 16} # RGB
-          Scanline.decode_rgb_16(decoded, canvas, y)
-        when {6, 8} # RGBA
-          Scanline.decode_rgb_alpha_8(decoded, canvas, y)
-        when {6, 16} # RGBA
-          Scanline.decode_rgb_alpha_16(decoded, canvas, y)
-        when {3, 1} 
-          Scanline.decode_palette_1(decoded, canvas, y, palette)
-        when {3, 2} 
-          Scanline.decode_palette_2(decoded, canvas, y, palette)
-        when {3, 4} 
-          Scanline.decode_palette_4(decoded, canvas, y, palette)
-        when {3, 8} 
-          Scanline.decode_palette_8(decoded, canvas, y, palette)
+        case color_type
+        when 0
+          Scanline.decode_grayscale(decoded, canvas, y, bit_depth)
+        when 4
+          Scanline.decode_grayscale_alpha(decoded, canvas, y, bit_depth)
+        when 2
+          Scanline.decode_rgb(decoded, canvas, y, bit_depth)
+        when 6
+          Scanline.decode_rgb_alpha(decoded, canvas, y, bit_depth)
+        when 3
+          Scanline.decode_palette(decoded, canvas, y, palette, bit_depth)
         end
 
         if prior_scanline
@@ -224,14 +204,10 @@ module StumpyPNG
 
     def parse_chunk(chunk)
       case chunk.type
-      when "IHDR"
-        parse_IHDR(chunk)
-      when "PLTE"
-        parse_PLTE(chunk)
-      when "IDAT"
-        parse_IDAT(chunk)
-      when "IEND"
-        parse_IEND(chunk)
+      when "IHDR"; parse_IHDR(chunk)
+      when "PLTE"; parse_PLTE(chunk)
+      when "IDAT"; parse_IDAT(chunk)
+      when "IEND"; parse_IEND(chunk)
       end
     end
   end
