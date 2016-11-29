@@ -119,16 +119,11 @@ module StumpyPNG
         data_pos += scanline_width + 1
 
         case color_type
-        when 0
-          Scanline.decode_grayscale(decoded, canvas, y, bit_depth)
-        when 4
-          Scanline.decode_grayscale_alpha(decoded, canvas, y, bit_depth)
-        when 2
-          Scanline.decode_rgb(decoded, canvas, y, bit_depth)
-        when 6
-          Scanline.decode_rgb_alpha(decoded, canvas, y, bit_depth)
-        when 3
-          Scanline.decode_palette(decoded, canvas, y, palette, bit_depth)
+        when 0; Scanline.decode_grayscale(decoded, canvas, y, bit_depth)
+        when 4; Scanline.decode_grayscale_alpha(decoded, canvas, y, bit_depth)
+        when 2; Scanline.decode_rgb(decoded, canvas, y, bit_depth)
+        when 6; Scanline.decode_rgb_alpha(decoded, canvas, y, bit_depth)
+        when 3; Scanline.decode_palette(decoded, canvas, y, palette, bit_depth)
         end
 
         if prior_scanline
@@ -179,12 +174,27 @@ module StumpyPNG
 
           data_pos += scanline_width + 1
 
+          # TODO: This is definitely not the best way to do this
+          # because so many intermediate canvases are created.
+          # (Should not matter that much, because adam7 encoded png should be pretty rare)
+
           col = starting_col[pass]
-          values = Utils::NBitEnumerable.new(decoded, @bit_depth)
-          ColorTypes.decode(values, @bit_depth, @palette, color_type) do |pixel|
-            canvas[col, row] = pixel
+          increment = col_increment[pass]
+
+          line_width = scanline_width_.to_i32
+          line_canvas = Canvas.new(line_width, 1)
+
+          case color_type
+          when 0; Scanline.decode_grayscale(decoded, line_canvas, 0, bit_depth)
+          when 4; Scanline.decode_grayscale_alpha(decoded, line_canvas, 0, bit_depth)
+          when 2; Scanline.decode_rgb(decoded, line_canvas, 0, bit_depth)
+          when 6; Scanline.decode_rgb_alpha(decoded, line_canvas, 0, bit_depth)
+          when 3; Scanline.decode_palette(decoded, line_canvas, 0, palette, bit_depth)
+          end
+
+          (0...line_width).each do |x|
+            canvas[col, row] = line_canvas[x, 0]
             col += col_increment[pass]
-            break if col >= @width
           end
 
           row += row_increment[pass]
