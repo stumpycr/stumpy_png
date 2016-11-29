@@ -4,10 +4,10 @@ module StumpyPNG
     # because they are validated before
     def self.decode_grayscale(scanline, canvas, y, bit_depth)
       case bit_depth
-      when 1; Scanline.decode_grayscale_1(scanline, canvas, y)
-      when 2; Scanline.decode_grayscale_2(scanline, canvas, y)
-      when 4; Scanline.decode_grayscale_4(scanline, canvas, y)
-      when 8; Scanline.decode_grayscale_8(scanline, canvas, y)
+      when  1; Scanline.decode_grayscale_1(scanline, canvas, y)
+      when  2; Scanline.decode_grayscale_2(scanline, canvas, y)
+      when  4; Scanline.decode_grayscale_4(scanline, canvas, y)
+      when  8; Scanline.decode_grayscale_8(scanline, canvas, y)
       when 16; Scanline.decode_grayscale_16(scanline, canvas, y)
       end
     end
@@ -51,11 +51,11 @@ module StumpyPNG
         (0...8).each do |x2|
           # Make sure we don't write invalid pixels
           # if the canvas.width is not a multiple of 8
-          break if x+x2 >= canvas.width
+          break if x + x2 >= canvas.width
 
           gray = (byte >> 7) == 0 ? 0_u16 : 0xffff_u16
           byte <<= 1
-          canvas[x+x2, y] = RGBA.new(gray)
+          canvas[x + x2, y] = RGBA.new(gray)
         end
       end
     end
@@ -64,7 +64,7 @@ module StumpyPNG
       (0...canvas.width).step(4).each do |x|
         byte = scanline[x / 4]
         (0...4).each do |x2|
-          break if x+x2 >= canvas.width
+          break if x + x2 >= canvas.width
 
           gray = (byte >> 6).to_u16
           gray += gray << 2
@@ -72,7 +72,7 @@ module StumpyPNG
           gray += gray << 8
 
           byte <<= 2
-          canvas[x+x2, y] = RGBA.new(gray)
+          canvas[x + x2, y] = RGBA.new(gray)
         end
       end
     end
@@ -81,14 +81,14 @@ module StumpyPNG
       (0...canvas.width).step(2).each do |x|
         byte = scanline[x / 2]
         (0...2).each do |x2|
-          break if x+x2 >= canvas.width
+          break if x + x2 >= canvas.width
 
           gray = (byte >> 4).to_u16
           gray += gray << 4
           gray += gray << 8
 
           byte <<= 4
-          canvas[x+x2, y] = RGBA.new(gray)
+          canvas[x + x2, y] = RGBA.new(gray)
         end
       end
     end
@@ -183,9 +183,9 @@ module StumpyPNG
       (0...canvas.width).step(8).each do |x|
         byte = scanline[x / 8]
         (0...8).each do |x2|
-          break if x+x2 >= canvas.width
+          break if x + x2 >= canvas.width
 
-          canvas[x+x2, y] = palette[byte >> 7]
+          canvas[x + x2, y] = palette[byte >> 7]
           byte <<= 1
         end
       end
@@ -195,9 +195,9 @@ module StumpyPNG
       (0...canvas.width).step(4).each do |x|
         byte = scanline[x / 4]
         (0...4).each do |x2|
-          break if x+x2 >= canvas.width
+          break if x + x2 >= canvas.width
 
-          canvas[x+x2, y] = palette[byte >> 6]
+          canvas[x + x2, y] = palette[byte >> 6]
           byte <<= 2
         end
       end
@@ -207,9 +207,9 @@ module StumpyPNG
       (0...canvas.width).step(2).each do |x|
         byte = scanline[x / 2]
         (0...2).each do |x2|
-          break if x+x2 >= canvas.width
+          break if x + x2 >= canvas.width
 
-          canvas[x+x2, y] = palette[byte >> 4]
+          canvas[x + x2, y] = palette[byte >> 4]
           byte <<= 4
         end
       end
