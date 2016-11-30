@@ -20,7 +20,7 @@ module StumpyPNG
 
     ihdr = uninitialized UInt8[13]
     ihdr_slice = ihdr.to_slice
-    # TODO: use IO::ByteFormat::BigEndian.encode(canvas.widht, ihdr_slice) once 0.20.1 is out
+    # TODO: use IO::ByteFormat::BigEndian.encode(canvas.width, ihdr_slice) once 0.20.1 is out
     encode(canvas.width, ihdr_slice)
     encode(canvas.height, ihdr_slice + 4)
     ihdr_slice[8] = 16_u8 # bit depth = 16 bit
