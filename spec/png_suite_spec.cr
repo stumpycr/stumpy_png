@@ -13,7 +13,7 @@ module StumpyPNG
         # system "convert -depth 8 -compress none -gamma 0.999999 #{image} #{reference_path}"
 
         reference = File.read(reference_path).bytes
-        rgba = canvas.pixels.map(&.to_rgba8).map(&.to_a).flatten
+        rgba = canvas.pixels.map(&.to_rgba).map(&.to_a).flatten
 
         assert_equal reference, rgba
       end

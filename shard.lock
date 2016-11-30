@@ -6,5 +6,5 @@ shards:
 
   stumpy_core:
     git: https://github.com/l3kn/stumpy_core.git
-    commit: 1d901c36f695ce11f88524d604f0e2e40f2267af
+    commit: 5cb0a88a17c78a30c7041b96a7b08202a32d657e
 
