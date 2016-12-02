@@ -6,7 +6,7 @@
 * `StumpyPNG.read(path) : Canvas` read a PNG image file
 * `StumpyPNG.write(canvas, path, bit_depth: 16, color_type: :grayscale)` saves a canvas as a PNG image file
   * `bit_depth` is optional, valid values are `8` and `16`(default)
-  * `color_type` is optional, valid values are `grayscale`, `grayscale_alpha`, `rgb` and `rgb_alpha`(default)
+  * `color_type` is optional, valid values are `:grayscale`, `:grayscale_alpha`, `:rgb` and `:rgb_alpha`(default)
 * `StumpyPNG::PNG`, helper class to store some state while parsing PNG files
 * `Canvas` and `RGBA` from [stumpy_core](https://github.com/l3kn/stumpy_core)
 
@@ -87,8 +87,10 @@ StumpyPNG.write(canvas, "rainbow.png")
 
 ## Writing
 
-Only supports writing to a RGB + Alpha PNG image
-without any filters, interlacing or ancillary chunks.
+* RGB with 8 or 16 bits
+* RGB + Alpha with 8 or 16 bits
+* Grayscale with 8 or 16 bits
+* Grayscale + Alpha with 8 or 16 bits
 
 ## Contributors
 
