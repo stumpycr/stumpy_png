@@ -52,7 +52,7 @@ module StumpyPNG
       # Reset buffer position
       @idat_buffer.pos = 0
 
-      contents = Zlib::Inflate.new(@idat_buffer) do |inflate|
+      contents = Zlib::Reader.open(@idat_buffer) do |inflate|
         io = IO::Memory.new
         IO.copy(inflate, io)
         @data = io.to_slice

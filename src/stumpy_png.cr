@@ -3,6 +3,7 @@ require "stumpy_core"
 require "./stumpy_png/png"
 require "./stumpy_png/crc_io"
 require "io/multi_writer"
+require "crc32"
 
 module StumpyPNG
   include StumpyCore
@@ -71,7 +72,7 @@ module StumpyPNG
       multi << "IDAT"
       crc_io.size = 0
 
-      Zlib::Deflate.new(multi) do |deflate|
+      Zlib::Writer.open(multi) do |deflate|
         case color_type
         when :rgb_alpha; write_rgb_alpha(canvas, deflate, bit_depth)
         when :rgb; write_rgb(canvas, deflate, bit_depth)
@@ -89,7 +90,7 @@ module StumpyPNG
       # Write the IEND chunk
       file.write_bytes(0_u32, IO::ByteFormat::BigEndian)
       multi << "IEND"
-      multi.write_bytes(Zlib.crc32("IEND").to_u32, IO::ByteFormat::BigEndian)
+      multi.write_bytes(CRC32.checksum("IEND"), IO::ByteFormat::BigEndian)
     end
   end
 
