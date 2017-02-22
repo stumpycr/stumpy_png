@@ -97,8 +97,8 @@ StumpyPNG.write(canvas, "rainbow.png")
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/><br /><sub>Chris Hobbs</sub>](http://www.rx14.co.uk)<br /> | [<img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/><br /><sub>Ary Borenszweig</sub>](http://manas.com.ar)<br /> |
-| :---: | :---: |
+| [<img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/><br /><sub>Chris Hobbs</sub>](http://www.rx14.co.uk)<br /> | [<img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/><br /><sub>Ary Borenszweig</sub>](http://manas.com.ar)<br /> | [<img src="https://avatars.githubusercontent.com/u/90345?v=3" width="100px;"/><br /><sub>Alex Muscar</sub>](https://github.com/muscar)<br /> |
+| :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
