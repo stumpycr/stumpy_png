@@ -1,5 +1,7 @@
 require "./utils"
 
+require "crc32"
+
 module StumpyPNG
   class Chunk
     property type : String
@@ -12,7 +14,7 @@ module StumpyPNG
       crc = Utils.bytes_to_uint32(slice[slice.size - 4, 4])
       data = slice[4, slice.size - 8]
 
-      expected_crc = Zlib.crc32(slice[0, slice.size - 4])
+      expected_crc = CRC32.checksum(slice[0, slice.size - 4])
       raise "Incorrect checksum" if crc != expected_crc
 
       Chunk.new(type, data, crc)
@@ -22,9 +24,9 @@ module StumpyPNG
       if crc
         @crc = crc
       elsif data.empty?
-        @crc = Zlib.crc32(type).to_u32
+        @crc = CRC32.checksum(type)
       else
-        @crc = Zlib.crc32(data, Zlib.crc32(type)).to_u32
+        @crc = CRC32.update(data, CRC32.checksum(type))
       end
     end
 
