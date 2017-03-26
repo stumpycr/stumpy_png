@@ -12,6 +12,20 @@
 
 ## Usage
 
+### Install the `stumpy_png` shard
+
+1. `shards init`
+2. Add the dependency to the `shard.yml` file
+ ``` yaml
+ ...
+ dependencies:
+   stumpy_png:
+     github: l3kn/stumpy_png
+     version: "-> 2.0.0"
+ ...
+ ```
+3. `shards install`
+
 ### Reading
 
 ``` crystal
