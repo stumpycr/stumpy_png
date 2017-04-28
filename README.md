@@ -50,7 +50,7 @@ canvas = Canvas.new(256, 256)
     color = RGBA.from_rgb_n(x, y, 255, 8)
     canvas[x, y] = color
   end
-end
+endIf you get 
 
 StumpyPNG.write(canvas, "rainbow.png")
 ```
@@ -105,6 +105,18 @@ StumpyPNG.write(canvas, "rainbow.png")
 * RGB + Alpha with 8 or 16 bits
 * Grayscale with 8 or 16 bits
 * Grayscale + Alpha with 8 or 16 bits
+
+## Troubleshooting
+
+If you run into errors like
+
+```bash
+/usr/bin/ld: cannot find -lz
+collect2: error: ld returned 1 exit status
+```
+
+make sure `zlib` is installed
+([Installing zlib under ubuntu](https://ubuntuforums.org/showthread.php?t=1528204)).
 
 ## Contributors
 
