@@ -1,6 +1,8 @@
 # stumpy_png
 [![Build Status](https://travis-ci.org/stumpycr/stumpy_png.svg?branch=master)](https://travis-ci.org/stumpycr/stumpy_png)
 
+[Documentation](https://docs.leonrische.me/stumpy_png/)
+
 ## Interface
 
 * `StumpyPNG.read(path) : Canvas` read a PNG image file
