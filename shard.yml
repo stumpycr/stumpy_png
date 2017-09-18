@@ -7,7 +7,7 @@ authors:
 dependencies:
   stumpy_core:
     git: https://github.com/stumpycr/stumpy_core.git
-    version: ~> 1.6.0
+    version: ~> 1.7.0
 
 development_dependencies:
   minitest:
