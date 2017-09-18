@@ -10,7 +10,7 @@
   * `bit_depth` is optional, valid values are `8` and `16`(default)
   * `color_type` is optional, valid values are `:grayscale`, `:grayscale_alpha`, `:rgb` and `:rgb_alpha`(default)
 * `StumpyPNG::PNG`, helper class to store some state while parsing PNG files
-* `Canvas` and `RGBA` from [stumpy_core](https://github.com/l3kn/stumpy_core)
+* `Canvas` and `RGBA` from [stumpy_core](https://github.com/stumpycr/stumpy_core)
 
 ## Usage
 
