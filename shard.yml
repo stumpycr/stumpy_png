@@ -1,13 +1,13 @@
 name: stumpy_png
-version: 4.1.2
+version: 4.2.0
 
 authors:
-  - Leon Rische <hello@l3kn.de>
+  - Leon Rische <leon.rische@me.com>
 
 dependencies:
   stumpy_core:
     git: https://github.com/stumpycr/stumpy_core.git
-    version: ~> 1.5.2
+    version: ~> 1.6.0
 
 development_dependencies:
   minitest:

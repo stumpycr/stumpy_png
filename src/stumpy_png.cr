@@ -97,7 +97,7 @@ module StumpyPNG
   private def self.write_rgb_alpha(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 8)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
@@ -110,7 +110,7 @@ module StumpyPNG
       end
     else
       buffer = Bytes.new(1 + canvas.width * 4)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         i = 1
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
@@ -127,7 +127,7 @@ module StumpyPNG
   private def self.write_rgb(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 6)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b}.each do |value|
@@ -140,7 +140,7 @@ module StumpyPNG
       end
     else
       buffer = Bytes.new(1 + canvas.width * 3)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         i = 1
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b}.each do |value|
@@ -157,7 +157,7 @@ module StumpyPNG
   private def self.write_grayscale_alpha(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 4)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
@@ -171,7 +171,7 @@ module StumpyPNG
       end
     else
       buffer = Bytes.new(1 + canvas.width * 2)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         i = 1
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
@@ -189,7 +189,7 @@ module StumpyPNG
   private def self.write_grayscale(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 2)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
@@ -200,7 +200,7 @@ module StumpyPNG
       end
     else
       buffer = Bytes.new(1 + canvas.width * 1)
-      canvas.each_column do |col|
+      canvas.each_row do |col|
         i = 1
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
