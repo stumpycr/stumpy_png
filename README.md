@@ -23,7 +23,7 @@
  dependencies:
    stumpy_png:
      github: l3kn/stumpy_png
-     version: "~> 4.1.1"
+     version: "~> 4.1.2"
  ...
  ```
 3. `shards install`
