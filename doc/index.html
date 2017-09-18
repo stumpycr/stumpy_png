@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/stumpycr/stumpy_png">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>README - github.com/stumpycr/stumpy_png</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li class="current"><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/CrcIO" data-name="crcio">
+      <a href="CrcIO.html">CrcIO</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/stumpycr/stumpy_png/StumpyPNG" data-name="stumpypng">
+      <a href="StumpyPNG.html">StumpyPNG</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Chunk" data-name="stumpypng::chunk">
+      <a href="StumpyPNG/Chunk.html">Chunk</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Datastream" data-name="stumpypng::datastream">
+      <a href="StumpyPNG/Datastream.html">Datastream</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Filter" data-name="stumpypng::filter">
+      <a href="StumpyPNG/Filter.html">Filter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/PNG" data-name="stumpypng::png">
+      <a href="StumpyPNG/PNG.html">PNG</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Scanline" data-name="stumpypng::scanline">
+      <a href="StumpyPNG/Scanline.html">Scanline</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Utils" data-name="stumpypng::utils">
+      <a href="StumpyPNG/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1>stumpy_png</h1>
+
+<p><a href="https://travis-ci.org/stumpycr/stumpy_png" target="_blank"><img src="https://travis-ci.org/stumpycr/stumpy_png.svg?branch=master" alt="Build Status"/></a></p>
+
+<h2>Interface</h2>
+
+<ul><li><code>StumpyPNG.read(path) : Canvas</code> read a PNG image file</li><li><code>StumpyPNG.write(canvas, path, bit_depth: 16, color_type: :grayscale)</code> saves a canvas as a PNG image file</li><ul><li><code>bit_depth</code> is optional, valid values are <code>8</code> and <code>16</code>(default)</li><li><code>color_type</code> is optional, valid values are <code>:grayscale</code>, <code>:grayscale_alpha</code>, <code>:rgb</code> and <code>:rgb_alpha</code>(default)</li></ul><li><code><a href="StumpyPNG/PNG.html">StumpyPNG::PNG</a></code>, helper class to store some state while parsing PNG files</li><li><code>Canvas</code> and <code>RGBA</code> from <a href="https://github.com/l3kn/stumpy_core" target="_blank">stumpy_core</a></li></ul>
+
+<h2>Usage</h2>
+
+<h3>Install the <code>stumpy_png</code> shard</h3>
+
+<ol><li><code>shards init</code></li><li>Add the dependency to the <code>shard.yml</code> file
+ <code></code>` yaml
+ ...
+ dependencies:
+   stumpy_png:</li></ol>
+
+<pre><code> github: l3kn<span class="s">/stumpy_png
+ version: &quot;~&gt; 4.1.1&quot;</code></pre>
+
+<p>...
+ <code></code>`</p>
+
+<ol><li><code>shards install</code></li></ol>
+
+<h3>Reading</h3>
+
+<pre><code class='language-crystal'><span class="k">require</span> <span class="s">&quot;stumpy_png&quot;</span>
+
+canvas <span class="o">=</span> <span class="t">StumpyPNG</span>.read(<span class="s">&quot;foo.png&quot;</span>)
+r, g, b <span class="o">=</span> canvas[<span class="n">0</span>, <span class="n">0</span>].to_rgb8
+puts <span class="s">&quot;red&#61;</span><span class="i">#{</span></span>r<span class="s"><span class="i">}</span>, green&#61;</span><span class="i">#{</span></span>g<span class="s"><span class="i">}</span>, blue&#61;</span><span class="i">#{</span></span>b<span class="s"><span class="i">}</span>&quot;</span></code></pre>
+
+<h3>Writing</h3>
+
+<pre><code class='language-crystal'><span class="k">include</span> <span class="t">StumpyPNG</span>
+
+canvas <span class="o">=</span> <span class="t">Canvas</span>.<span class="k">new</span>(<span class="n">256</span>, <span class="n">256</span>)
+
+(<span class="n">0</span>...<span class="n">255</span>).each <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  (<span class="n">0</span>...<span class="n">255</span>).each <span class="k">do</span> <span class="o">|</span>y<span class="o">|</span>
+    <span class="c"># RGBA.from_rgb_n&#40;values, bit_depth&#41; is an internal helper method</span>
+    <span class="c"># that creates an RGBA object from a rgb triplet with a given bit depth</span>
+    color <span class="o">=</span> <span class="t">RGBA</span>.from_rgb_n(x, y, <span class="n">255</span>, <span class="n">8</span>)
+    canvas[x, y] <span class="o">=</span> color
+  <span class="k">end</span>
+endIf you get 
+
+<span class="t">StumpyPNG</span>.write(canvas, <span class="s">&quot;rainbow.png&quot;</span>)</code></pre>
+
+<p><img src="examples/rainbow.png" alt="PNG image with a color gradient"/></p>
+
+<p>(See <code>examples/</code> for more examples)</p>
+
+<h2>Reading PNG files</h2>
+
+<h3>Color Types</h3>
+
+<ul><li>[x] Grayscale</li><li>[x] Grayscale + Alpha</li><li>[x] RGB</li><li>[x] RGB + Alpha</li><li>[x] Palette</li></ul>
+
+<h3>Filter Types</h3>
+
+<ul><li>[x] None</li><li>[x] Sub</li><li>[x] Up</li><li>[x] Average</li><li>[x] Paeth</li></ul>
+
+<h3>Interlacing Methods</h3>
+
+<ul><li>[x] None</li><li>[x] Adam7</li></ul>
+
+<h3>Ancillary Chunks</h3>
+
+<ul><li>[ ] tRNS</li><li>[ ] cHRM</li><li>[ ] gAMA</li><li>[ ] iCCP</li><li>[ ] sBIT</li><li>[ ] sRGB</li><li>[ ] tEXt</li><li>[ ] zTXt</li><li>[ ] iTXt</li><li>[ ] bKGD</li><li>[ ] hIST</li><li>[ ] pHYs</li><li>[ ] sPLT</li><li>[ ] tIME</li></ul>
+
+<h2>Writing</h2>
+
+<ul><li>RGB with 8 or 16 bits</li><li>RGB + Alpha with 8 or 16 bits</li><li>Grayscale with 8 or 16 bits</li><li>Grayscale + Alpha with 8 or 16 bits</li></ul>
+
+<h2>Troubleshooting</h2>
+
+<p>If you run into errors like</p>
+
+<pre><code class='language-bash'>/usr/bin/ld: cannot find -lz
+collect2: error: ld returned 1 exit status</code></pre>
+
+<p>make sure <code>zlib</code> is installed
+(<a href="https://ubuntuforums.org/showthread.php?t=1528204" target="_blank">Installing zlib under ubuntu</a>).</p>
+
+<h2>Contributors</h2>
+
+<p>Thanks goes to these wonderful people (<a href="https://github.com/kentcdodds/all-contributors#emoji-key" target="_blank">emoji key</a>):</p>
+
+<p>&lt;!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| <a href="http://www.rx14.co.uk" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/>&lt;br />&lt;sub>Chris Hobbs&lt;/sub></a>&lt;br /> | <a href="http://manas.com.ar" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/>&lt;br />&lt;sub>Ary Borenszweig&lt;/sub></a>&lt;br /> | <a href="https://github.com/muscar" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/90345?v=3" width="100px;"/>&lt;br />&lt;sub>Alex Muscar&lt;/sub></a>&lt;br /> |
+| :---: | :---: | :---: |
+&lt;!-- ALL-CONTRIBUTORS-LIST:END --></p>
+
+<p>This project follows the <a href="https://github.com/kentcdodds/all-contributors" target="_blank">all-contributors</a> specification. Contributions of any kind welcome!</p>
+</div>
+</body>
+</html>

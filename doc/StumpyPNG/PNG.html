@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/stumpycr/stumpy_png">
+  <link href="../css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../js/doc.js"></script>
+  <title>StumpyPNG::PNG - github.com/stumpycr/stumpy_png</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li><a href="../index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/CrcIO" data-name="crcio">
+      <a href="../CrcIO.html">CrcIO</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/stumpycr/stumpy_png/StumpyPNG" data-name="stumpypng">
+      <a href="../StumpyPNG.html">StumpyPNG</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Chunk" data-name="stumpypng::chunk">
+      <a href="../StumpyPNG/Chunk.html">Chunk</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Datastream" data-name="stumpypng::datastream">
+      <a href="../StumpyPNG/Datastream.html">Datastream</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Filter" data-name="stumpypng::filter">
+      <a href="../StumpyPNG/Filter.html">Filter</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/stumpycr/stumpy_png/StumpyPNG/PNG" data-name="stumpypng::png">
+      <a href="../StumpyPNG/PNG.html">PNG</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Scanline" data-name="stumpypng::scanline">
+      <a href="../StumpyPNG/Scanline.html">Scanline</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Utils" data-name="stumpypng::utils">
+      <a href="../StumpyPNG/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> StumpyPNG::PNG
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../StumpyPNG/PNG.html">StumpyPNG::PNG</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L7" target="_blank">stumpy_png/png.cr</a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>Constant Summary</h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="COLOR_TYPES">
+        <strong>COLOR_TYPES</strong> = <code>{<span class="n">0</span> => {<span class="n">:grayscale</span>, [<span class="n">1</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">8</span>, <span class="n">16</span>], <span class="n">1</span>}, <span class="n">2</span> => {<span class="n">:rgb</span>, [<span class="n">8</span>, <span class="n">16</span>], <span class="n">3</span>}, <span class="n">3</span> => {<span class="n">:palette</span>, [<span class="n">1</span>, <span class="n">2</span>, <span class="n">4</span>, <span class="n">8</span>], <span class="n">1</span>}, <span class="n">4</span> => {<span class="n">:grayscale_alpha</span>, [<span class="n">8</span>, <span class="n">16</span>], <span class="n">2</span>}, <span class="n">6</span> => {<span class="n">:rgb_alpha</span>, [<span class="n">8</span>, <span class="n">16</span>], <span class="n">4</span>}}</code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>{ name, valid bit depths, "fields" per pixel }</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="INTERLACE_METHODS">
+        <strong>INTERLACE_METHODS</strong> = <code>{<span class="n">0</span> => <span class="n">:no_interlace</span>, <span class="n">1</span> => <span class="n">:adam7</span>}</code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#bit_depth%3AUInt8-instance-method" class="signature"><strong>#bit_depth</strong> : UInt8</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#canvas%3ACanvas-instance-method" class="signature"><strong>#canvas</strong> : Canvas</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#color_type%3AUInt8-instance-method" class="signature"><strong>#color_type</strong> : UInt8</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#compression_method%3AUInt8-instance-method" class="signature"><strong>#compression_method</strong> : UInt8</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#data%3ASlice%28UInt8%29-instance-method" class="signature"><strong>#data</strong> : Slice(UInt8)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#filter_method%3AUInt8-instance-method" class="signature"><strong>#filter_method</strong> : UInt8</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#height%3AInt32-instance-method" class="signature"><strong>#height</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#interlace_method%3AUInt8-instance-method" class="signature"><strong>#interlace_method</strong> : UInt8</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#palette%3AArray%28StumpyCore%3A%3ARGBA%29-instance-method" class="signature"><strong>#palette</strong> : Array(StumpyCore::RGBA)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_chunk%28chunk%29-instance-method" class="signature"><strong>#parse_chunk</strong>(chunk)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_IDAT%28chunk%3AChunk%29-instance-method" class="signature"><strong>#parse_IDAT</strong>(chunk : Chunk)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_IEND%28chunk%3AChunk%29-instance-method" class="signature"><strong>#parse_IEND</strong>(chunk : Chunk)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_IHDR%28chunk%3AChunk%29-instance-method" class="signature"><strong>#parse_IHDR</strong>(chunk : Chunk)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_PLTE%28chunk%3AChunk%29-instance-method" class="signature"><strong>#parse_PLTE</strong>(chunk : Chunk)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parsed%3ABool-instance-method" class="signature"><strong>#parsed</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_canvas_adam7-instance-method" class="signature"><strong>#to_canvas_adam7</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_canvas_none-instance-method" class="signature"><strong>#to_canvas_none</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#width%3AInt32-instance-method" class="signature"><strong>#width</strong> : Int32</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>
+
+        <a class="method-permalink" href="#new-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="bit_depth:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>bit_depth</strong> : UInt8
+
+        <a class="method-permalink" href="#bit_depth%3AUInt8-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="canvas:Canvas-instance-method">
+      <div class="signature">
+        
+        def <strong>canvas</strong> : Canvas
+
+        <a class="method-permalink" href="#canvas%3ACanvas-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="color_type:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>color_type</strong> : UInt8
+
+        <a class="method-permalink" href="#color_type%3AUInt8-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="compression_method:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>compression_method</strong> : UInt8
+
+        <a class="method-permalink" href="#compression_method%3AUInt8-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="data:Slice&#40;UInt8&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>data</strong> : Slice(UInt8)
+
+        <a class="method-permalink" href="#data%3ASlice%28UInt8%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="filter_method:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>filter_method</strong> : UInt8
+
+        <a class="method-permalink" href="#filter_method%3AUInt8-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="height:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>height</strong> : Int32
+
+        <a class="method-permalink" href="#height%3AInt32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="interlace_method:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>interlace_method</strong> : UInt8
+
+        <a class="method-permalink" href="#interlace_method%3AUInt8-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="palette:Array&#40;StumpyCore::RGBA&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>palette</strong> : Array(StumpyCore::RGBA)
+
+        <a class="method-permalink" href="#palette%3AArray%28StumpyCore%3A%3ARGBA%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_chunk&#40;chunk&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>parse_chunk</strong>(chunk)
+
+        <a class="method-permalink" href="#parse_chunk%28chunk%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L214" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_IDAT&#40;chunk:Chunk&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>parse_IDAT</strong>(chunk : <a href="../StumpyPNG/Chunk.html">Chunk</a>)
+
+        <a class="method-permalink" href="#parse_IDAT%28chunk%3AChunk%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_IEND&#40;chunk:Chunk&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>parse_IEND</strong>(chunk : <a href="../StumpyPNG/Chunk.html">Chunk</a>)
+
+        <a class="method-permalink" href="#parse_IEND%28chunk%3AChunk%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L49" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_IHDR&#40;chunk:Chunk&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>parse_IHDR</strong>(chunk : <a href="../StumpyPNG/Chunk.html">Chunk</a>)
+
+        <a class="method-permalink" href="#parse_IHDR%28chunk%3AChunk%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L80" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_PLTE&#40;chunk:Chunk&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>parse_PLTE</strong>(chunk : <a href="../StumpyPNG/Chunk.html">Chunk</a>)
+
+        <a class="method-permalink" href="#parse_PLTE%28chunk%3AChunk%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parsed:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>parsed</strong> : Bool
+
+        <a class="method-permalink" href="#parsed%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_canvas_adam7-instance-method">
+      <div class="signature">
+        
+        def <strong>to_canvas_adam7</strong>
+
+        <a class="method-permalink" href="#to_canvas_adam7-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L139" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_canvas_none-instance-method">
+      <div class="signature">
+        
+        def <strong>to_canvas_none</strong>
+
+        <a class="method-permalink" href="#to_canvas_none-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L103" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="width:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>width</strong> : Int32
+
+        <a class="method-permalink" href="#width%3AInt32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/png.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

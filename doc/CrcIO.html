@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/stumpycr/stumpy_png">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>CrcIO - github.com/stumpycr/stumpy_png</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" current" data-id="github.com/stumpycr/stumpy_png/CrcIO" data-name="crcio">
+      <a href="CrcIO.html">CrcIO</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/stumpycr/stumpy_png/StumpyPNG" data-name="stumpypng">
+      <a href="StumpyPNG.html">StumpyPNG</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Chunk" data-name="stumpypng::chunk">
+      <a href="StumpyPNG/Chunk.html">Chunk</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Datastream" data-name="stumpypng::datastream">
+      <a href="StumpyPNG/Datastream.html">Datastream</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Filter" data-name="stumpypng::filter">
+      <a href="StumpyPNG/Filter.html">Filter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/PNG" data-name="stumpypng::png">
+      <a href="StumpyPNG/PNG.html">PNG</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Scanline" data-name="stumpypng::scanline">
+      <a href="StumpyPNG/Scanline.html">Scanline</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Utils" data-name="stumpypng::utils">
+      <a href="StumpyPNG/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> CrcIO
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="CrcIO.html">CrcIO</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type">IO</li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L5" target="_blank">stumpy_png/crc_io.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#crc%3AUInt32-instance-method" class="signature"><strong>#crc</strong> : UInt32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read%28slice%3ASlice%28UInt8%29%29-instance-method" class="signature"><strong>#read</strong>(slice : Slice(UInt8))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset-instance-method" class="signature"><strong>#reset</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3D%28size%29-instance-method" class="signature"><strong>#size=</strong>(size)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write%28slice%3ASlice%28UInt8%29%29-instance-method" class="signature"><strong>#write</strong>(slice : Slice(UInt8))</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>
+
+        <a class="method-permalink" href="#new-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="crc:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>crc</strong> : UInt32
+
+        <a class="method-permalink" href="#crc%3AUInt32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read&#40;slice:Slice&#40;UInt8&#41;&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>read</strong>(slice : Slice(UInt8))
+
+        <a class="method-permalink" href="#read%28slice%3ASlice%28UInt8%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset-instance-method">
+      <div class="signature">
+        
+        def <strong>reset</strong>
+
+        <a class="method-permalink" href="#reset-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : Int32
+
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L9" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size&#61;&#40;size&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>size=</strong>(size)
+
+        <a class="method-permalink" href="#size%3D%28size%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L9" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write&#40;slice:Slice&#40;UInt8&#41;&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>write</strong>(slice : Slice(UInt8))
+
+        <a class="method-permalink" href="#write%28slice%3ASlice%28UInt8%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/crc_io.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

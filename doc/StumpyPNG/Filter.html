@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/stumpycr/stumpy_png">
+  <link href="../css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../js/doc.js"></script>
+  <title>StumpyPNG::Filter - github.com/stumpycr/stumpy_png</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li><a href="../index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/CrcIO" data-name="crcio">
+      <a href="../CrcIO.html">CrcIO</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/stumpycr/stumpy_png/StumpyPNG" data-name="stumpypng">
+      <a href="../StumpyPNG.html">StumpyPNG</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Chunk" data-name="stumpypng::chunk">
+      <a href="../StumpyPNG/Chunk.html">Chunk</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Datastream" data-name="stumpypng::datastream">
+      <a href="../StumpyPNG/Datastream.html">Datastream</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Filter" data-name="stumpypng::filter">
+      <a href="../StumpyPNG/Filter.html">Filter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/PNG" data-name="stumpypng::png">
+      <a href="../StumpyPNG/PNG.html">PNG</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Scanline" data-name="stumpypng::scanline">
+      <a href="../StumpyPNG/Scanline.html">Scanline</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Utils" data-name="stumpypng::utils">
+      <a href="../StumpyPNG/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> StumpyPNG::Filter
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/filters.cr#L2" target="_blank">stumpy_png/filters.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+  <h2>Class Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#apply%28scanline%3ABytes%2Cprior_scanline%3ABytes%2Cdecoded%3ABytes%2Cbpp%2Cfilter%29%3ABytes-class-method" class="signature"><strong>.apply</strong>(scanline : Bytes, prior_scanline : Bytes, decoded : Bytes, bpp, filter) : Bytes</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#apply%28scanline%3ABytes%2Cprior_scanline%3ANil%2Cdecoded%3ABytes%2Cbpp%2Cfilter%29%3ABytes-class-method" class="signature"><strong>.apply</strong>(scanline : Bytes, prior_scanline : Nil, decoded : Bytes, bpp, filter) : Bytes</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+  <h2>Class Method Detail</h2>
+  
+    <div class="entry-detail" id="apply&#40;scanline:Bytes,prior_scanline:Bytes,decoded:Bytes,bpp,filter&#41;:Bytes-class-method">
+      <div class="signature">
+        
+        def self.<strong>apply</strong>(scanline : Bytes, prior_scanline : Bytes, decoded : Bytes, bpp, filter) : Bytes
+
+        <a class="method-permalink" href="#apply%28scanline%3ABytes%2Cprior_scanline%3ABytes%2Cdecoded%3ABytes%2Cbpp%2Cfilter%29%3ABytes-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/filters.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="apply&#40;scanline:Bytes,prior_scanline:Nil,decoded:Bytes,bpp,filter&#41;:Bytes-class-method">
+      <div class="signature">
+        
+        def self.<strong>apply</strong>(scanline : Bytes, prior_scanline : Nil, decoded : Bytes, bpp, filter) : Bytes
+
+        <a class="method-permalink" href="#apply%28scanline%3ABytes%2Cprior_scanline%3ANil%2Cdecoded%3ABytes%2Cbpp%2Cfilter%29%3ABytes-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/79dc1efc4d02e6b5f77a99d102444eaed6a63517/src/stumpy_png/filters.cr#L37" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+
+</div>
+
+</body>
+</html>

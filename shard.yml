@@ -6,12 +6,12 @@ authors:
 
 dependencies:
   stumpy_core:
-    git: https://github.com/stumpycr/stumpy_core.git
+    github: stumpycr/stumpy_core
     version: ~> 1.7.0
 
 development_dependencies:
   minitest:
-    git: https://github.com/ysbaddaden/minitest.cr.git
+    github: ysbaddaden/minitest.cr
     version: ~> 0.3.5
 
 license: MIT
