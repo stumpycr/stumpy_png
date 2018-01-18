@@ -11,22 +11,28 @@
       "login": "RX14",
       "name": "Chris Hobbs",
       "avatar_url": "https://avatars.githubusercontent.com/u/2788811?v=3",
-      "profile": "http://www.rx14.co.uk",
-      "contributions": []
+      "profile": "https://github.com/rx14",
+      "contributions": [
+        "code"
+      ]
     },
     {
       "login": "asterite",
       "name": "Ary Borenszweig",
       "avatar_url": "https://avatars.githubusercontent.com/u/209371?v=3",
-      "profile": "http://manas.com.ar",
-      "contributions": []
+      "profile": "https://github.com/asterite",
+      "contributions": [
+        "code"
+      ]
     },
     {
       "login": "muscar",
       "name": "Alex Muscar",
       "avatar_url": "https://avatars.githubusercontent.com/u/90345?v=3",
       "profile": "https://github.com/muscar",
-      "contributions": []
+      "contributions": [
+        "code"
+      ]
     },
     {
       "login": "drujensen",
