@@ -2,9 +2,7 @@ require "zlib"
 
 require "crc32"
 
-class CrcIO
-  include IO
-
+class CrcIO < IO
   getter crc : UInt32
   property size
 
