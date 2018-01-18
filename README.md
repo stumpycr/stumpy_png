@@ -125,8 +125,9 @@ make sure `zlib` is installed
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/><br /><sub>Chris Hobbs</sub>](http://www.rx14.co.uk)<br /> | [<img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/><br /><sub>Ary Borenszweig</sub>](http://manas.com.ar)<br /> | [<img src="https://avatars.githubusercontent.com/u/90345?v=3" width="100px;"/><br /><sub>Alex Muscar</sub>](https://github.com/muscar)<br /> |
-| :---: | :---: | :---: |
+<!-- prettier-ignore -->
+| [<img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/><br /><sub><b>Chris Hobbs</b></sub>](http://www.rx14.co.uk)<br /> | [<img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/><br /><sub><b>Ary Borenszweig</b></sub>](http://manas.com.ar)<br /> | [<img src="https://avatars.githubusercontent.com/u/90345?v=3" width="100px;"/><br /><sub><b>Alex Muscar</b></sub>](https://github.com/muscar)<br /> | [<img src="https://avatars2.githubusercontent.com/u/18718?v=4" width="100px;"/><br /><sub><b>Dru Jensen</b></sub>](https://github.com/drujensen)<br />[💻](https://github.com/l3kn/stumpy_png/commits?author=drujensen "Code") |
+| :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
