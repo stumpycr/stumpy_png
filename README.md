@@ -22,7 +22,7 @@
  ...
  dependencies:
    stumpy_png:
-     github: stumpy_png/stumpy_png
+     github: stumpycr/stumpy_png
      version: "~> 4.2"
  ...
  ```
