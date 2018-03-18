@@ -74,9 +74,11 @@
 
 <p><a href="https://travis-ci.org/stumpycr/stumpy_png" target="_blank"><img src="https://travis-ci.org/stumpycr/stumpy_png.svg?branch=master" alt="Build Status"/></a></p>
 
+<p><a href="https://docs.leonrische.me/stumpy_png/" target="_blank">Documentation</a></p>
+
 <h2>Interface</h2>
 
-<ul><li><code>StumpyPNG.read(path) : Canvas</code> read a PNG image file</li><li><code>StumpyPNG.write(canvas, path, bit_depth: 16, color_type: :grayscale)</code> saves a canvas as a PNG image file</li><ul><li><code>bit_depth</code> is optional, valid values are <code>8</code> and <code>16</code>(default)</li><li><code>color_type</code> is optional, valid values are <code>:grayscale</code>, <code>:grayscale_alpha</code>, <code>:rgb</code> and <code>:rgb_alpha</code>(default)</li></ul><li><code><a href="StumpyPNG/PNG.html">StumpyPNG::PNG</a></code>, helper class to store some state while parsing PNG files</li><li><code>Canvas</code> and <code>RGBA</code> from <a href="https://github.com/l3kn/stumpy_core" target="_blank">stumpy_core</a></li></ul>
+<ul><li><code>StumpyPNG.read(path : String) : Canvas</code> read a PNG image file from a path</li><li><code>StumpyPNG.read(io : IO) : Canvas</code> read a PNG image file from any IO object</li><li><code>StumpyPNG.write(canvas, path : String, bit_depth: 16, color_type: :rgb_alpha)</code> save a canvas as a PNG image file</li><li><code>StumpyPNG.write(canvas, io : IO, bit_depth: 16, color_type: :rgb_alpha)</code> write a canvas as PNG data to any IO object</li><ul><li><code>bit_depth</code> is optional, valid values are <code>8</code> and <code>16</code>(default)</li><li><code>color_type</code> is optional, valid values are <code>:grayscale</code>, <code>:grayscale_alpha</code>, <code>:rgb</code> and <code>:rgb_alpha</code>(default)</li></ul><li><code><a href="StumpyPNG/PNG.html">StumpyPNG::PNG</a></code>, helper class to store some state while parsing PNG files</li><li><code>Canvas</code> and <code>RGBA</code> from <a href="https://github.com/stumpycr/stumpy_core" target="_blank">stumpy_core</a></li></ul>
 
 <h2>Usage</h2>
 
@@ -88,8 +90,8 @@
  dependencies:
    stumpy_png:</li></ol>
 
-<pre><code> github: l3kn<span class="s">/stumpy_png
- version: &quot;~&gt; 4.1.1&quot;</code></pre>
+<pre><code> github: stumpycr<span class="s">/stumpy_png
+ version: &quot;~&gt; 4.3&quot;</code></pre>
 
 <p>...
  <code></code>`</p>
@@ -102,7 +104,7 @@
 
 canvas <span class="o">=</span> <span class="t">StumpyPNG</span>.read(<span class="s">&quot;foo.png&quot;</span>)
 r, g, b <span class="o">=</span> canvas[<span class="n">0</span>, <span class="n">0</span>].to_rgb8
-puts <span class="s">&quot;red&#61;</span><span class="i">#{</span></span>r<span class="s"><span class="i">}</span>, green&#61;</span><span class="i">#{</span></span>g<span class="s"><span class="i">}</span>, blue&#61;</span><span class="i">#{</span></span>b<span class="s"><span class="i">}</span>&quot;</span></code></pre>
+puts <span class="s">&quot;red=</span><span class="i">#{</span></span>r<span class="s"><span class="i">}</span>, green=</span><span class="i">#{</span></span>g<span class="s"><span class="i">}</span>, blue=</span><span class="i">#{</span></span>b<span class="s"><span class="i">}</span>&quot;</span></code></pre>
 
 <h3>Writing</h3>
 
@@ -110,14 +112,14 @@ puts <span class="s">&quot;red&#61;</span><span class="i">#{</span></span>r<span
 
 canvas <span class="o">=</span> <span class="t">Canvas</span>.<span class="k">new</span>(<span class="n">256</span>, <span class="n">256</span>)
 
-(<span class="n">0</span>...<span class="n">255</span>).each <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
-  (<span class="n">0</span>...<span class="n">255</span>).each <span class="k">do</span> <span class="o">|</span>y<span class="o">|</span>
-    <span class="c"># RGBA.from_rgb_n&#40;values, bit_depth&#41; is an internal helper method</span>
+(<span class="n">0</span>..<span class="n">255</span>).each <span class="k">do</span> <span class="o">|</span>x<span class="o">|</span>
+  (<span class="n">0</span>..<span class="n">255</span>).each <span class="k">do</span> <span class="o">|</span>y<span class="o">|</span>
+    <span class="c"># RGBA.from_rgb_n(values, bit_depth) is an internal helper method</span>
     <span class="c"># that creates an RGBA object from a rgb triplet with a given bit depth</span>
     color <span class="o">=</span> <span class="t">RGBA</span>.from_rgb_n(x, y, <span class="n">255</span>, <span class="n">8</span>)
     canvas[x, y] <span class="o">=</span> color
   <span class="k">end</span>
-endIf you get 
+<span class="k">end</span>
 
 <span class="t">StumpyPNG</span>.write(canvas, <span class="s">&quot;rainbow.png&quot;</span>)</code></pre>
 
@@ -162,8 +164,9 @@ collect2: error: ld returned 1 exit status</code></pre>
 <p>Thanks goes to these wonderful people (<a href="https://github.com/kentcdodds/all-contributors#emoji-key" target="_blank">emoji key</a>):</p>
 
 <p>&lt;!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| <a href="http://www.rx14.co.uk" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/>&lt;br />&lt;sub>Chris Hobbs&lt;/sub></a>&lt;br /> | <a href="http://manas.com.ar" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/>&lt;br />&lt;sub>Ary Borenszweig&lt;/sub></a>&lt;br /> | <a href="https://github.com/muscar" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/90345?v=3" width="100px;"/>&lt;br />&lt;sub>Alex Muscar&lt;/sub></a>&lt;br /> |
-| :---: | :---: | :---: |
+&lt;!-- prettier-ignore -->
+| <a href="https://github.com/rx14" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/2788811?v=3" width="100px;"/>&lt;br />&lt;sub>&lt;b>Chris Hobbs&lt;/b>&lt;/sub></a>&lt;br /><a href="https://github.com/l3kn/stumpy_png/commits?author=RX14 "Code"" target="_blank">💻</a> | <a href="https://github.com/asterite" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/209371?v=3" width="100px;"/>&lt;br />&lt;sub>&lt;b>Ary Borenszweig&lt;/b>&lt;/sub></a>&lt;br /><a href="https://github.com/l3kn/stumpy_png/commits?author=asterite "Code"" target="_blank">💻</a> | <a href="https://github.com/muscar" target="_blank">&lt;img src="https://avatars.githubusercontent.com/u/90345?v=3" width="100px;"/>&lt;br />&lt;sub>&lt;b>Alex Muscar&lt;/b>&lt;/sub></a>&lt;br /><a href="https://github.com/l3kn/stumpy_png/commits?author=muscar "Code"" target="_blank">💻</a> | <a href="https://github.com/drujensen" target="_blank">&lt;img src="https://avatars2.githubusercontent.com/u/18718?v=4" width="100px;"/>&lt;br />&lt;sub>&lt;b>Dru Jensen&lt;/b>&lt;/sub></a>&lt;br /><a href="https://github.com/l3kn/stumpy_png/commits?author=drujensen "Code"" target="_blank">💻</a> | <a href="https://github.com/kojix2" target="_blank">&lt;img src="https://avatars3.githubusercontent.com/u/5798442?v=4" width="100px;"/>&lt;br />&lt;sub>&lt;b>kojix2&lt;/b>&lt;/sub></a>&lt;br /><a href="https://github.com/l3kn/stumpy_png/commits?author=kojix2 "Documentation"" target="_blank">📖</a> | <a href="http://obskyr.io/" target="_blank">&lt;img src="https://avatars0.githubusercontent.com/u/4363779?v=4" width="100px;"/>&lt;br />&lt;sub>&lt;b>obskyr&lt;/b>&lt;/sub></a>&lt;br /><a href="https://github.com/l3kn/stumpy_png/commits?author=obskyr "Code"" target="_blank">💻</a> |
+| :---: | :---: | :---: | :---: | :---: | :---: |
 &lt;!-- ALL-CONTRIBUTORS-LIST:END --></p>
 
 <p>This project follows the <a href="https://github.com/kentcdodds/all-contributors" target="_blank">all-contributors</a> specification. Contributions of any kind welcome!</p>

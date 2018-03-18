@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/stumpycr/stumpy_png">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>StumpyPNG - github.com/stumpycr/stumpy_png</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/CrcIO" data-name="crcio">
+      <a href="CrcIO.html">CrcIO</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/stumpycr/stumpy_png/StumpyPNG" data-name="stumpypng">
+      <a href="StumpyPNG.html">StumpyPNG</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Chunk" data-name="stumpypng::chunk">
+      <a href="StumpyPNG/Chunk.html">Chunk</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Datastream" data-name="stumpypng::datastream">
+      <a href="StumpyPNG/Datastream.html">Datastream</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Filter" data-name="stumpypng::filter">
+      <a href="StumpyPNG/Filter.html">Filter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/PNG" data-name="stumpypng::png">
+      <a href="StumpyPNG/PNG.html">PNG</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Scanline" data-name="stumpypng::scanline">
+      <a href="StumpyPNG/Scanline.html">Scanline</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/stumpycr/stumpy_png/StumpyPNG/Utils" data-name="stumpypng::utils">
+      <a href="StumpyPNG/Utils.html">Utils</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> StumpyPNG
+
+</h1>
+
+
+
+
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type">StumpyCore</li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/utils.cr#L1" target="_blank">stumpy_png/utils.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/chunk.cr#L5" target="_blank">stumpy_png/chunk.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/datastream.cr#L5" target="_blank">stumpy_png/datastream.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/filters.cr#L1" target="_blank">stumpy_png/filters.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/scanline.cr#L1" target="_blank">stumpy_png/scanline.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/png.cr#L6" target="_blank">stumpy_png/png.cr</a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L8" target="_blank">stumpy_png.cr</a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>Constant Summary</h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="HEADER">
+        <strong>HEADER</strong> = <code><span class="n">9894494448401390090_u64</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="WRITE_BIT_DEPTHS">
+        <strong>WRITE_BIT_DEPTHS</strong> = <code>[<span class="n">8</span>, <span class="n">16</span>]</code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="WRITE_COLOR_TYPES">
+        <strong>WRITE_COLOR_TYPES</strong> = <code>{<span class="n">:rgb</span> => <span class="n">2_u8</span>, <span class="n">:rgb_alpha</span> => <span class="n">6_u8</span>, <span class="n">:grayscale</span> => <span class="n">0_u8</span>, <span class="n">:grayscale_alpha</span> => <span class="n">4_u8</span>}</code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+
+
+  <h2>Class Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#read%28path%3AString%29-class-method" class="signature"><strong>.read</strong>(path : String)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read%28io%3AIO%29-class-method" class="signature"><strong>.read</strong>(io : IO)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write%28canvas%2Cpath%3AString%2C%2A%2Aoptions%29-class-method" class="signature"><strong>.write</strong>(canvas, path : String, **options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write%28canvas%2Cio%3AIO%2C%2A%2Aoptions%29-class-method" class="signature"><strong>.write</strong>(canvas, io : IO, **options)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+  <h2>Class Method Detail</h2>
+  
+    <div class="entry-detail" id="read(path:String)-class-method">
+      <div class="signature">
+        
+        def self.<strong>read</strong>(path : String)
+
+        <a class="method-permalink" href="#read%28path%3AString%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read(io:IO)-class-method">
+      <div class="signature">
+        
+        def self.<strong>read</strong>(io : IO)
+
+        <a class="method-permalink" href="#read%28io%3AIO%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write(canvas,path:String,**options)-class-method">
+      <div class="signature">
+        
+        def self.<strong>write</strong>(canvas, path : String, **options)
+
+        <a class="method-permalink" href="#write%28canvas%2Cpath%3AString%2C%2A%2Aoptions%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L37" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write(canvas,io:IO,**options)-class-method">
+      <div class="signature">
+        
+        def self.<strong>write</strong>(canvas, io : IO, **options)
+
+        <a class="method-permalink" href="#write%28canvas%2Cio%3AIO%2C%2A%2Aoptions%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
