@@ -5,8 +5,10 @@
 
 ## Interface
 
-* `StumpyPNG.read(path) : Canvas` read a PNG image file
-* `StumpyPNG.write(canvas, path, bit_depth: 16, color_type: :grayscale)` saves a canvas as a PNG image file
+* `StumpyPNG.read(path : String) : Canvas` read a PNG image file from a path
+* `StumpyPNG.read(io : IO) : Canvas` read a PNG image file from any IO object
+* `StumpyPNG.write(canvas, path : String, bit_depth: 16, color_type: :rgb_alpha)` save a canvas as a PNG image file
+* `StumpyPNG.write(canvas, io : IO, bit_depth: 16, color_type: :rgb_alpha)` write a canvas as PNG data to any IO object
   * `bit_depth` is optional, valid values are `8` and `16`(default)
   * `color_type` is optional, valid values are `:grayscale`, `:grayscale_alpha`, `:rgb` and `:rgb_alpha`(default)
 * `StumpyPNG::PNG`, helper class to store some state while parsing PNG files

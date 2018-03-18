@@ -18,17 +18,29 @@ module StumpyPNG
     :grayscale_alpha => 4_u8
   }
 
-  def self.read(path)
+  def self.read(path : String)
+    File.open(path, "rb") do |file|
+      self.read(file)
+    end
+  end
+
+  def self.read(io : IO)
     png = PNG.new
 
-    Datastream.read(path).chunks.each do |chunk|
+    Datastream.read(io).chunks.each do |chunk|
       png.parse_chunk(chunk)
     end
 
     png.canvas
   end
 
-  def self.write(canvas, path, **options)
+  def self.write(canvas, path : String, **options)
+    File.open(path, "wb") do |file|
+      self.write(canvas, file, **options)
+    end
+  end
+
+  def self.write(canvas, io : IO, **options)
     bit_depth = options.fetch(:bit_depth, 16)
     color_type = options.fetch(:color_type, :rgb_alpha)
 
@@ -46,52 +58,50 @@ module StumpyPNG
       options: #{WRITE_COLOR_TYPES.keys.inspect}"
     end
 
-    File.open(path, "w") do |file|
-      file.write_bytes(HEADER, IO::ByteFormat::BigEndian)
+    io.write_bytes(HEADER, IO::ByteFormat::BigEndian)
 
-      crc_io = CrcIO.new
-      multi = IO::MultiWriter.new(crc_io, file)
+    crc_io = CrcIO.new
+    multi = IO::MultiWriter.new(crc_io, io)
 
-      # Write the IHDR chunk
-      file.write_bytes(13_u32, IO::ByteFormat::BigEndian)
-      multi << "IHDR"
+    # Write the IHDR chunk
+    io.write_bytes(13_u32, IO::ByteFormat::BigEndian)
+    multi << "IHDR"
 
-      multi.write_bytes(canvas.width.to_u32, IO::ByteFormat::BigEndian)
-      multi.write_bytes(canvas.height.to_u32, IO::ByteFormat::BigEndian)
-      multi.write_byte(bit_depth.to_u8)
-      multi.write_byte(WRITE_COLOR_TYPES[color_type])
-      multi.write_byte(0_u8)  # compression = deflate
-      multi.write_byte(0_u8)  # filter = adaptive (only option)
-      multi.write_byte(0_u8)  # interlacing = none
+    multi.write_bytes(canvas.width.to_u32, IO::ByteFormat::BigEndian)
+    multi.write_bytes(canvas.height.to_u32, IO::ByteFormat::BigEndian)
+    multi.write_byte(bit_depth.to_u8)
+    multi.write_byte(WRITE_COLOR_TYPES[color_type])
+    multi.write_byte(0_u8)  # compression = deflate
+    multi.write_byte(0_u8)  # filter = adaptive (only option)
+    multi.write_byte(0_u8)  # interlacing = none
 
-      multi.write_bytes(crc_io.crc.to_u32, IO::ByteFormat::BigEndian)
-      crc_io.reset
+    multi.write_bytes(crc_io.crc.to_u32, IO::ByteFormat::BigEndian)
+    crc_io.reset
 
-      # Write the IDAT chunk with a dummy chunk size
-      file.write_bytes(0_u32, IO::ByteFormat::BigEndian)
-      multi << "IDAT"
-      crc_io.size = 0
+    # Write the IDAT chunk with a dummy chunk size
+    io.write_bytes(0_u32, IO::ByteFormat::BigEndian)
+    multi << "IDAT"
+    crc_io.size = 0
 
-      Zlib::Writer.open(multi) do |deflate|
-        case color_type
-        when :rgb_alpha; write_rgb_alpha(canvas, deflate, bit_depth)
-        when :rgb; write_rgb(canvas, deflate, bit_depth)
-        when :grayscale_alpha; write_grayscale_alpha(canvas, deflate, bit_depth)
-        when :grayscale; write_grayscale(canvas, deflate, bit_depth)
-        end
+    Zlib::Writer.open(multi) do |deflate|
+      case color_type
+      when :rgb_alpha; write_rgb_alpha(canvas, deflate, bit_depth)
+      when :rgb; write_rgb(canvas, deflate, bit_depth)
+      when :grayscale_alpha; write_grayscale_alpha(canvas, deflate, bit_depth)
+      when :grayscale; write_grayscale(canvas, deflate, bit_depth)
       end
-
-      # Go back in the file and write the size
-      file.seek(-(4 + 4 + crc_io.size), IO::Seek::Current)
-      file.write_bytes(crc_io.size.to_u32, IO::ByteFormat::BigEndian)
-      file.seek(0, IO::Seek::End)
-      multi.write_bytes(crc_io.crc.to_u32, IO::ByteFormat::BigEndian)
-
-      # Write the IEND chunk
-      file.write_bytes(0_u32, IO::ByteFormat::BigEndian)
-      multi << "IEND"
-      multi.write_bytes(CRC32.checksum("IEND"), IO::ByteFormat::BigEndian)
     end
+
+    # Go back and write the size
+    io.seek(-(4 + 4 + crc_io.size), IO::Seek::Current)
+    io.write_bytes(crc_io.size.to_u32, IO::ByteFormat::BigEndian)
+    io.seek(0, IO::Seek::End)
+    multi.write_bytes(crc_io.crc.to_u32, IO::ByteFormat::BigEndian)
+
+    # Write the IEND chunk
+    io.write_bytes(0_u32, IO::ByteFormat::BigEndian)
+    multi << "IEND"
+    multi.write_bytes(CRC32.checksum("IEND"), IO::ByteFormat::BigEndian)
   end
 
   private def self.write_rgb_alpha(canvas, output, bit_depth)
