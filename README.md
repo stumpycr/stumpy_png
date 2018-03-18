@@ -25,7 +25,7 @@
  dependencies:
    stumpy_png:
      github: stumpycr/stumpy_png
-     version: "~> 4.2"
+     version: "~> 4.3"
  ...
  ```
 3. `shards install`
