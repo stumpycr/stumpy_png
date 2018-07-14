@@ -43,6 +43,7 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 ### Writing
 
 ``` crystal
+require "stumpy_png"
 include StumpyPNG
 
 canvas = Canvas.new(256, 256)

@@ -6,8 +6,6 @@ module StumpyPNG
   class Datastream
     property chunks : Array(Chunk)
 
-    HEADER = 0x89504e470d0a1a0a
-
     def initialize(@chunks = [] of Chunk)
     end
 
@@ -18,7 +16,7 @@ module StumpyPNG
     end
 
     def self.read(io : IO)
-      raise "Not a png file" unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == HEADER
+      raise "Not a png file" unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == StumpyPNG::HEADER
 
       chunks = [] of Chunk
 
@@ -51,7 +49,7 @@ module StumpyPNG
     end
 
     def write(io : IO)
-      io.write_bytes(HEADER, IO::ByteFormat::BigEndian)
+      io.write_bytes(StumpyPNG::HEADER, IO::ByteFormat::BigEndian)
       @chunks.each do |chunk|
         chunk.write(io)
       end

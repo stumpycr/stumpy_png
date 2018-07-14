@@ -23,5 +23,4 @@ class CrcIO < IO
   def reset
     @crc = 0_u32
   end
-
 end

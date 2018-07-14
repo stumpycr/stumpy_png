@@ -7,11 +7,11 @@ module StumpyPNG
   class PNG
     # { name, valid bit depths, "fields" per pixel }
     COLOR_TYPES = {
-      0 => {:grayscale, [1, 2, 4, 8, 16], 1},
-      2 => {:rgb, [8, 16], 3},
-      3 => {:palette, [1, 2, 4, 8], 1},
-      4 => {:grayscale_alpha, [8, 16], 2},
-      6 => {:rgb_alpha, [8, 16], 4},
+      0 => {:grayscale, {1, 2, 4, 8, 16}, 1},
+      2 => {:rgb, {8, 16}, 3},
+      3 => {:palette, {1, 2, 4, 8}, 1},
+      4 => {:grayscale_alpha, {8, 16}, 2},
+      6 => {:rgb_alpha, {8, 16}, 4},
     }
 
     INTERLACE_METHODS = {
