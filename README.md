@@ -25,7 +25,7 @@
  dependencies:
    stumpy_png:
      github: stumpycr/stumpy_png
-     version: "~> 4.3"
+     version: "~> 4.4"
  ...
  ```
 3. `shards install`
@@ -43,6 +43,7 @@ puts "red=#{r}, green=#{g}, blue=#{b}"
 ### Writing
 
 ``` crystal
+require "stumpy_png"
 include StumpyPNG
 
 canvas = Canvas.new(256, 256)

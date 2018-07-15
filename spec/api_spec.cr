@@ -14,7 +14,7 @@ module StumpyPNG
         IO.copy(file, in_io)
       end
       in_io.rewind
-      
+
       canvas = StumpyPNG.read(in_io)
 
       out_io = IO::Memory.new

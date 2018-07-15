@@ -10,12 +10,12 @@ module StumpyPNG
 
   HEADER = 0x89504e470d0a1a0a
 
-  WRITE_BIT_DEPTHS = [8, 16]
+  WRITE_BIT_DEPTHS  = {8, 16}
   WRITE_COLOR_TYPES = {
-    :rgb => 2_u8,
-    :rgb_alpha => 6_u8,
-    :grayscale => 0_u8, 
-    :grayscale_alpha => 4_u8
+    :rgb             => 2_u8,
+    :rgb_alpha       => 6_u8,
+    :grayscale       => 0_u8,
+    :grayscale_alpha => 4_u8,
   }
 
   def self.read(path : String)
@@ -71,9 +71,9 @@ module StumpyPNG
     multi.write_bytes(canvas.height.to_u32, IO::ByteFormat::BigEndian)
     multi.write_byte(bit_depth.to_u8)
     multi.write_byte(WRITE_COLOR_TYPES[color_type])
-    multi.write_byte(0_u8)  # compression = deflate
-    multi.write_byte(0_u8)  # filter = adaptive (only option)
-    multi.write_byte(0_u8)  # interlacing = none
+    multi.write_byte(0_u8) # compression = deflate
+    multi.write_byte(0_u8) # filter = adaptive (only option)
+    multi.write_byte(0_u8) # interlacing = none
 
     multi.write_bytes(crc_io.crc.to_u32, IO::ByteFormat::BigEndian)
     crc_io.reset
@@ -85,10 +85,10 @@ module StumpyPNG
 
     Zlib::Writer.open(multi) do |deflate|
       case color_type
-      when :rgb_alpha; write_rgb_alpha(canvas, deflate, bit_depth)
-      when :rgb; write_rgb(canvas, deflate, bit_depth)
+      when :rgb_alpha      ; write_rgb_alpha(canvas, deflate, bit_depth)
+      when :rgb            ; write_rgb(canvas, deflate, bit_depth)
       when :grayscale_alpha; write_grayscale_alpha(canvas, deflate, bit_depth)
-      when :grayscale; write_grayscale(canvas, deflate, bit_depth)
+      when :grayscale      ; write_grayscale(canvas, deflate, bit_depth)
       end
     end
 
@@ -111,8 +111,7 @@ module StumpyPNG
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
-            # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
-            encode(value, buffer_ptr)
+            IO::ByteFormat::BigEndian.encode(value, buffer_ptr)
             buffer_ptr += 2
           end
         end
@@ -121,12 +120,10 @@ module StumpyPNG
     else
       buffer = Bytes.new(1 + canvas.width * 4)
       canvas.each_row do |col|
-        i = 1
-        col.each do |pixel|
+        col.each_with_index(1) do |pixel, i|
           {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
             # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
             buffer[i] = (value >> 8).to_u8
-            i += 1
           end
         end
         output.write(buffer)
@@ -141,8 +138,7 @@ module StumpyPNG
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b}.each do |value|
-            # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
-            encode(value, buffer_ptr)
+            IO::ByteFormat::BigEndian.encode(value, buffer_ptr)
             buffer_ptr += 2
           end
         end
@@ -151,12 +147,10 @@ module StumpyPNG
     else
       buffer = Bytes.new(1 + canvas.width * 3)
       canvas.each_row do |col|
-        i = 1
-        col.each do |pixel|
+        col.each_with_index(1) do |pixel, i|
           {pixel.r, pixel.g, pixel.b}.each do |value|
             # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
             buffer[i] = (value >> 8).to_u8
-            i += 1
           end
         end
         output.write(buffer)
@@ -172,8 +166,7 @@ module StumpyPNG
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
           {gray.to_u16, pixel.a}.each do |value|
-            # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
-            encode(value, buffer_ptr)
+            IO::ByteFormat::BigEndian.encode(value, buffer_ptr)
             buffer_ptr += 2
           end
         end
@@ -182,13 +175,11 @@ module StumpyPNG
     else
       buffer = Bytes.new(1 + canvas.width * 2)
       canvas.each_row do |col|
-        i = 1
-        col.each do |pixel|
+        col.each_with_index(1) do |pixel, i|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
           {gray, pixel.a}.each do |value|
             # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
             buffer[i] = (value >> 8).to_u8
-            i += 1
           end
         end
         output.write(buffer)
@@ -203,7 +194,7 @@ module StumpyPNG
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
-          encode(gray.to_u16, buffer_ptr)
+          IO::ByteFormat::BigEndian.encode(gray.to_u16, buffer_ptr)
           buffer_ptr += 2
         end
         output.write(buffer)
@@ -211,28 +202,12 @@ module StumpyPNG
     else
       buffer = Bytes.new(1 + canvas.width * 1)
       canvas.each_row do |col|
-        i = 1
-        col.each do |pixel|
+        col.each_with_index(1) do |pixel, i|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
           buffer[i] = (gray >> 8).to_u8
-          i += 1
         end
         output.write(buffer)
       end
     end
-  end
-
-  private def self.encode(value : UInt16, slice)
-    bytes = pointerof(value).as(UInt8[2]*).value
-    slice[0] = bytes[1]
-    slice[1] = bytes[0]
-  end
-
-  private def self.encode(value : Int32, slice)
-    bytes = pointerof(value).as(UInt8[4]*).value
-    slice[0] = bytes[3]
-    slice[1] = bytes[2]
-    slice[2] = bytes[1]
-    slice[3] = bytes[0]
   end
 end
