@@ -89,20 +89,7 @@ StumpyPNG.write(canvas, "rainbow.png")
 
 ### Ancillary Chunks
 
-- [ ] tRNS
-- [ ] cHRM
-- [ ] gAMA
-- [ ] iCCP
-- [ ] sBIT
-- [ ] sRGB
-- [ ] tEXt
-- [ ] zTXt
-- [ ] iTXt
-- [ ] bKGD
-- [ ] hIST
-- [ ] pHYs
-- [ ] sPLT
-- [ ] tIME
+None are supported right now.
 
 ## Writing
 
