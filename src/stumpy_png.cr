@@ -123,7 +123,6 @@ module StumpyPNG
         i = 1
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b, pixel.a}.each do |value|
-            # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
             buffer[i] = (value >> 8).to_u8
             i += 1
           end
@@ -152,7 +151,6 @@ module StumpyPNG
         i = 1
         col.each do |pixel|
           {pixel.r, pixel.g, pixel.b}.each do |value|
-            # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
             buffer[i] = (value >> 8).to_u8
             i += 1
           end
@@ -183,7 +181,6 @@ module StumpyPNG
         col.each do |pixel|
           gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
           {gray, pixel.a}.each do |value|
-            # TODO: use IO::ByteFormat::BigEndian.encode(value, buffer_ptr) once 0.20.1 is out
             buffer[i] = (value >> 8).to_u8
             i += 1
           end
