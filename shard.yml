@@ -1,5 +1,5 @@
 name: stumpy_png
-version: 4.4.1
+version: 4.5.0
 
 authors:
   - Leon Rische <leon.rische@me.com>
@@ -7,7 +7,7 @@ authors:
 dependencies:
   stumpy_core:
     github: stumpycr/stumpy_core
-    version: ~> 1.8.2
+    version: ~> 1.9
 
 development_dependencies:
   minitest:
