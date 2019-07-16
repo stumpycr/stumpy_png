@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.28.0">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
   <meta id="repository-name" content="github.com/stumpycr/stumpy_png">
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="js/doc.js"></script>
   <title>StumpyPNG - github.com/stumpycr/stumpy_png</title>
 </head>
 <body>
 
-<div id="types-list">
-  <div id="search-box">
-    <input type="search" id="search-input" placeholder="Search...">
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
   </div>
 
-  <ul>
-    <li><a href="index.html">README</a></li>
-  </ul>
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
 
-  <ul>
+  <div class="types-list">
+    <ul>
   
   <li class=" " data-id="github.com/stumpycr/stumpy_png/CrcIO" data-name="crcio">
       <a href="CrcIO.html">CrcIO</a>
@@ -67,9 +83,11 @@
   
 </ul>
 
+  </div>
 </div>
 
-<div id="main-content">
+
+<div class="main-content">
 <h1 class="type-name">
 
   <span class="kind">module</span> StumpyPNG
@@ -103,37 +121,51 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/utils.cr#L1" target="_blank">stumpy_png/utils.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png/utils.cr#L1" target="_blank">
+        stumpy_png/utils.cr
+      </a>
     
     <br/>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/chunk.cr#L5" target="_blank">stumpy_png/chunk.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png/chunk.cr#L5" target="_blank">
+        stumpy_png/chunk.cr
+      </a>
     
     <br/>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/datastream.cr#L5" target="_blank">stumpy_png/datastream.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png/datastream.cr#L5" target="_blank">
+        stumpy_png/datastream.cr
+      </a>
     
     <br/>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/filters.cr#L1" target="_blank">stumpy_png/filters.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png/filters.cr#L1" target="_blank">
+        stumpy_png/filters.cr
+      </a>
     
     <br/>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/scanline.cr#L1" target="_blank">stumpy_png/scanline.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png/scanline.cr#L1" target="_blank">
+        stumpy_png/scanline.cr
+      </a>
     
     <br/>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png/png.cr#L6" target="_blank">stumpy_png/png.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png/png.cr#L6" target="_blank">
+        stumpy_png/png.cr
+      </a>
     
     <br/>
   
     
-      <a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L8" target="_blank">stumpy_png.cr</a>
+      <a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png.cr#L8" target="_blank">
+        stumpy_png.cr
+      </a>
     
     <br/>
   
@@ -151,7 +183,7 @@
       
     
       <dt class="entry-const" id="WRITE_BIT_DEPTHS">
-        <strong>WRITE_BIT_DEPTHS</strong> = <code>[<span class="n">8</span>, <span class="n">16</span>]</code>
+        <strong>WRITE_BIT_DEPTHS</strong> = <code>{<span class="n">8</span>, <span class="n">16</span>}</code>
       </dt>
       
     
@@ -227,7 +259,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -243,7 +275,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -259,7 +291,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -275,7 +307,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/stumpycr/stumpy_png/blob/7bfd31516ddacff45e8c9658cd39e763e8918b16/src/stumpy_png.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/stumpycr/stumpy_png/blob/7f99ea3e01fab4c4527c9cc49a1d434b70da6df1/src/stumpy_png.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
