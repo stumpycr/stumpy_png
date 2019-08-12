@@ -10,7 +10,7 @@ module StumpyPNG
 
   HEADER = 0x89504e470d0a1a0a
 
-  WRITE_BIT_DEPTHS  = {8, 16}
+  WRITE_BIT_DEPTHS  = [8, 16]
   WRITE_COLOR_TYPES = {
     :rgb             => 2_u8,
     :rgb_alpha       => 6_u8,
