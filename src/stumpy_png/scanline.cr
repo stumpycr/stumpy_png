@@ -47,7 +47,7 @@ module StumpyPNG
 
     def self.decode_grayscale_1(scanline, canvas, y)
       (0...canvas.width).step(8).each do |x|
-        byte = scanline[x / 8]
+        byte = scanline[x // 8]
         (0...8).each do |x2|
           # Make sure we don't write invalid pixels
           # if the canvas.width is not a multiple of 8
@@ -62,7 +62,7 @@ module StumpyPNG
 
     def self.decode_grayscale_2(scanline, canvas, y)
       (0...canvas.width).step(4).each do |x|
-        byte = scanline[x / 4]
+        byte = scanline[x // 4]
         (0...4).each do |x2|
           break if x + x2 >= canvas.width
 
@@ -79,7 +79,7 @@ module StumpyPNG
 
     def self.decode_grayscale_4(scanline, canvas, y)
       (0...canvas.width).step(2).each do |x|
-        byte = scanline[x / 2]
+        byte = scanline[x // 2]
         (0...2).each do |x2|
           break if x + x2 >= canvas.width
 
@@ -181,7 +181,7 @@ module StumpyPNG
 
     def self.decode_palette_1(scanline, canvas, y, palette)
       (0...canvas.width).step(8).each do |x|
-        byte = scanline[x / 8]
+        byte = scanline[x // 8]
         (0...8).each do |x2|
           break if x + x2 >= canvas.width
 
@@ -193,7 +193,7 @@ module StumpyPNG
 
     def self.decode_palette_2(scanline, canvas, y, palette)
       (0...canvas.width).step(4).each do |x|
-        byte = scanline[x / 4]
+        byte = scanline[x // 4]
         (0...4).each do |x2|
           break if x + x2 >= canvas.width
 
@@ -205,7 +205,7 @@ module StumpyPNG
 
     def self.decode_palette_4(scanline, canvas, y, palette)
       (0...canvas.width).step(2).each do |x|
-        byte = scanline[x / 2]
+        byte = scanline[x // 2]
         (0...2).each do |x2|
           break if x + x2 >= canvas.width
 
