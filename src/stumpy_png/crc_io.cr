@@ -15,7 +15,7 @@ class CrcIO < IO
     0
   end
 
-  def write(slice : Slice(UInt8))
+  def write(slice : Slice(UInt8)) : Nil
     @crc = CRC32.update(slice, @crc)
     @size += slice.size
   end

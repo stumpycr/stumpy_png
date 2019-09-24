@@ -179,7 +179,7 @@ module StumpyPNG
       canvas.each_row do |col|
         i = 1
         col.each do |pixel|
-          gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
+          gray = (pixel.r.to_u32 + pixel.g + pixel.b) // 3
           {gray, pixel.a}.each do |value|
             buffer[i] = (value >> 8).to_u8
             i += 1
@@ -196,7 +196,7 @@ module StumpyPNG
       canvas.each_row do |col|
         buffer_ptr = buffer + 1 # The first byte is 0 => no filter
         col.each do |pixel|
-          gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
+          gray = (pixel.r.to_u32 + pixel.g + pixel.b) // 3
           IO::ByteFormat::BigEndian.encode(gray.to_u16, buffer_ptr)
           buffer_ptr += 2
         end
@@ -207,7 +207,7 @@ module StumpyPNG
       canvas.each_row do |col|
         i = 1
         col.each do |pixel|
-          gray = (pixel.r.to_u32 + pixel.g + pixel.b) / 3
+          gray = (pixel.r.to_u32 + pixel.g + pixel.b) // 3
           buffer[i] = (gray >> 8).to_u8
           i += 1
         end
