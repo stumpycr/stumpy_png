@@ -15,9 +15,10 @@ class CrcIO < IO
     0
   end
 
-  def write(slice : Slice(UInt8)) : Nil
+  def write(slice : Slice(UInt8)) : Int64
     @crc = CRC32.update(slice, @crc)
     @size += slice.size
+    slice.size.to_i64
   end
 
   def reset
