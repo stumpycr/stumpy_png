@@ -14,4 +14,6 @@ development_dependencies:
     github: ysbaddaden/minitest.cr
     version: ~> 0.5
 
+crystal: 0.35.1
+
 license: MIT
