@@ -1,4 +1,4 @@
-require "zlib"
+require "compress/zlib"
 require "./utils"
 require "./chunk"
 

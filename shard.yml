@@ -1,5 +1,5 @@
 name: stumpy_png
-version: 4.5.2
+version: 5.0.0
 
 authors:
   - Leon Rische <leon.rische@me.com>
@@ -13,5 +13,7 @@ development_dependencies:
   minitest:
     github: ysbaddaden/minitest.cr
     version: ~> 0.5
+
+crystal: 0.35.1
 
 license: MIT

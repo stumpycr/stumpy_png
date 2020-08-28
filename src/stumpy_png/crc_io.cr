@@ -1,6 +1,4 @@
-require "zlib"
-
-require "crc32"
+require "digest/crc32"
 
 class CrcIO < IO
   getter crc : UInt32
@@ -11,12 +9,12 @@ class CrcIO < IO
     @size = 0
   end
 
-  def read(slice : Slice(UInt8))
+  def read(slice : Bytes)
     0
   end
 
-  def write(slice : Slice(UInt8)) : Nil
-    @crc = CRC32.update(slice, @crc)
+  def write(slice : Bytes) : Nil
+    @crc = Digest::CRC32.update(slice, @crc)
     @size += slice.size
   end
 
