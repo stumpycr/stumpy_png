@@ -87,10 +87,10 @@ module StumpyPNG
 
     Compress::Zlib::Writer.open(multi) do |deflate|
       case color_type
-      when :rgb_alpha      ; write_rgb_alpha(canvas, deflate, bit_depth)
-      when :rgb            ; write_rgb(canvas, deflate, bit_depth)
-      when :grayscale_alpha; write_grayscale_alpha(canvas, deflate, bit_depth)
-      when :grayscale      ; write_grayscale(canvas, deflate, bit_depth)
+      when :rgb_alpha       then write_rgb_alpha(canvas, deflate, bit_depth)
+      when :rgb             then write_rgb(canvas, deflate, bit_depth)
+      when :grayscale_alpha then write_grayscale_alpha(canvas, deflate, bit_depth)
+      when :grayscale       then write_grayscale(canvas, deflate, bit_depth)
       end
     end
 

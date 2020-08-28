@@ -118,11 +118,11 @@ module StumpyPNG
         data_pos += scanline_width + 1
 
         case color_type
-        when 0; Scanline.decode_grayscale(decoded, canvas, y, bit_depth)
-        when 4; Scanline.decode_grayscale_alpha(decoded, canvas, y, bit_depth)
-        when 2; Scanline.decode_rgb(decoded, canvas, y, bit_depth)
-        when 6; Scanline.decode_rgb_alpha(decoded, canvas, y, bit_depth)
-        when 3; Scanline.decode_palette(decoded, canvas, y, palette, bit_depth)
+        when 0 then Scanline.decode_grayscale(decoded, canvas, y, bit_depth)
+        when 4 then Scanline.decode_grayscale_alpha(decoded, canvas, y, bit_depth)
+        when 2 then Scanline.decode_rgb(decoded, canvas, y, bit_depth)
+        when 6 then Scanline.decode_rgb_alpha(decoded, canvas, y, bit_depth)
+        when 3 then Scanline.decode_palette(decoded, canvas, y, palette, bit_depth)
         end
 
         if prior_scanline
@@ -184,11 +184,11 @@ module StumpyPNG
           line_canvas = Canvas.new(line_width, 1)
 
           case color_type
-          when 0; Scanline.decode_grayscale(decoded, line_canvas, 0, bit_depth)
-          when 4; Scanline.decode_grayscale_alpha(decoded, line_canvas, 0, bit_depth)
-          when 2; Scanline.decode_rgb(decoded, line_canvas, 0, bit_depth)
-          when 6; Scanline.decode_rgb_alpha(decoded, line_canvas, 0, bit_depth)
-          when 3; Scanline.decode_palette(decoded, line_canvas, 0, palette, bit_depth)
+          when 0 then Scanline.decode_grayscale(decoded, line_canvas, 0, bit_depth)
+          when 4 then Scanline.decode_grayscale_alpha(decoded, line_canvas, 0, bit_depth)
+          when 2 then Scanline.decode_rgb(decoded, line_canvas, 0, bit_depth)
+          when 6 then Scanline.decode_rgb_alpha(decoded, line_canvas, 0, bit_depth)
+          when 3 then Scanline.decode_palette(decoded, line_canvas, 0, palette, bit_depth)
           end
 
           (0...line_width).each do |x|
@@ -213,10 +213,10 @@ module StumpyPNG
 
     def parse_chunk(chunk)
       case chunk.type
-      when "IHDR"; parse_IHDR(chunk)
-      when "PLTE"; parse_PLTE(chunk)
-      when "IDAT"; parse_IDAT(chunk)
-      when "IEND"; parse_IEND(chunk)
+      when "IHDR" then parse_IHDR(chunk)
+      when "PLTE" then parse_PLTE(chunk)
+      when "IDAT" then parse_IDAT(chunk)
+      when "IEND" then parse_IEND(chunk)
       end
     end
   end

@@ -6,11 +6,11 @@ module StumpyPNG
     # because they are validated before
     def decode_grayscale(scanline, canvas, y, bit_depth)
       case bit_depth
-      when  1; Scanline.decode_grayscale_1(scanline, canvas, y)
-      when  2; Scanline.decode_grayscale_2(scanline, canvas, y)
-      when  4; Scanline.decode_grayscale_4(scanline, canvas, y)
-      when  8; Scanline.decode_grayscale_8(scanline, canvas, y)
-      when 16; Scanline.decode_grayscale_16(scanline, canvas, y)
+      when  1 then Scanline.decode_grayscale_1(scanline, canvas, y)
+      when  2 then Scanline.decode_grayscale_2(scanline, canvas, y)
+      when  4 then Scanline.decode_grayscale_4(scanline, canvas, y)
+      when  8 then Scanline.decode_grayscale_8(scanline, canvas, y)
+      when 16 then Scanline.decode_grayscale_16(scanline, canvas, y)
       end
     end
 
@@ -40,10 +40,10 @@ module StumpyPNG
 
     def decode_palette(scanline, canvas, y, palette, bit_depth)
       case bit_depth
-      when 1; Scanline.decode_palette_1(scanline, canvas, y, palette)
-      when 2; Scanline.decode_palette_2(scanline, canvas, y, palette)
-      when 4; Scanline.decode_palette_4(scanline, canvas, y, palette)
-      when 8; Scanline.decode_palette_8(scanline, canvas, y, palette)
+      when 1 then Scanline.decode_palette_1(scanline, canvas, y, palette)
+      when 2 then Scanline.decode_palette_2(scanline, canvas, y, palette)
+      when 4 then Scanline.decode_palette_4(scanline, canvas, y, palette)
+      when 8 then Scanline.decode_palette_8(scanline, canvas, y, palette)
       end
     end
 
