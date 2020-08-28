@@ -13,6 +13,9 @@ development_dependencies:
   minitest:
     github: ysbaddaden/minitest.cr
     version: ~> 0.5
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.13.0
 
 crystal: 0.35.1
 
