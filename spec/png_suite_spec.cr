@@ -90,7 +90,7 @@ module StumpyPNG
       end
     end
 
-    def test_corrupted_files__missing_IDAT_chunk
+    def test_corrupted_files__missing_idat_chunk
       image = "./spec/png_suite/corrupted_files/xdtn0g01.png"
       err = assert_raises Exception do
         StumpyPNG.read(image)
@@ -98,7 +98,7 @@ module StumpyPNG
       assert_equal err.message, "Missing IDAT chunk"
     end
 
-    def test_corrupted_files__incorrect_IDAT_checksum
+    def test_corrupted_files__incorrect_idat_checksum
       image = "./spec/png_suite/corrupted_files/xcsn0g01.png"
       err = assert_raises Exception do
         StumpyPNG.read(image)

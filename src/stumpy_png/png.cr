@@ -36,7 +36,7 @@ module StumpyPNG
       @idat_count = 0
     end
 
-    def parse_IEND(chunk : Chunk)
+    def parse_iend(chunk : Chunk)
       raise "Missing IDAT chunk" if @idat_count == 0
 
       # Reset buffer position
@@ -57,17 +57,17 @@ module StumpyPNG
       end
     end
 
-    def parse_IDAT(chunk : Chunk)
+    def parse_idat(chunk : Chunk)
       @idat_count += 1
       @idat_buffer.write(chunk.data)
     end
 
-    def parse_PLTE(chunk : Chunk)
+    def parse_plte(chunk : Chunk)
       raise "Invalid palette length" unless (chunk.size % 3) == 0
       @palette = chunk.data.each_slice(3).map { |rgb| RGBA.from_rgb_n(rgb, 8) }.to_a
     end
 
-    def parse_IHDR(chunk : Chunk)
+    def parse_ihdr(chunk : Chunk)
       @width = Utils.parse_integer(chunk.data[0, 4])
       @height = Utils.parse_integer(chunk.data[4, 4])
 
@@ -204,10 +204,10 @@ module StumpyPNG
 
     def parse_chunk(chunk)
       case chunk.type
-      when "IHDR" then parse_IHDR(chunk)
-      when "PLTE" then parse_PLTE(chunk)
-      when "IDAT" then parse_IDAT(chunk)
-      when "IEND" then parse_IEND(chunk)
+      when "IHDR" then parse_ihdr(chunk)
+      when "PLTE" then parse_plte(chunk)
+      when "IDAT" then parse_idat(chunk)
+      when "IEND" then parse_iend(chunk)
       end
     end
   end
