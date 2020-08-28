@@ -8,6 +8,8 @@ require "./stumpy_png/crc_io"
 module StumpyPNG
   include StumpyCore
 
+  extend self
+
   HEADER = 0x89504e470d0a1a0a
 
   WRITE_BIT_DEPTHS  = {8, 16}
@@ -18,13 +20,13 @@ module StumpyPNG
     :grayscale_alpha => 4_u8,
   }
 
-  def self.read(path : String)
+  def read(path : String)
     File.open(path, "rb") do |file|
-      self.read(file)
+      read(file)
     end
   end
 
-  def self.read(io : IO)
+  def read(io : IO)
     png = PNG.new
 
     Datastream.read(io).chunks.each do |chunk|
@@ -34,13 +36,13 @@ module StumpyPNG
     png.canvas
   end
 
-  def self.write(canvas, path : String, **options)
+  def write(canvas, path : String, **options)
     File.open(path, "wb") do |file|
-      self.write(canvas, file, **options)
+      write(canvas, file, **options)
     end
   end
 
-  def self.write(canvas, io : IO, **options)
+  def write(canvas, io : IO, **options)
     bit_depth = options.fetch(:bit_depth, 16)
     color_type = options.fetch(:color_type, :rgb_alpha)
 
@@ -104,7 +106,7 @@ module StumpyPNG
     multi.write_bytes(Digest::CRC32.checksum("IEND"), IO::ByteFormat::BigEndian)
   end
 
-  private def self.write_rgb_alpha(canvas, output, bit_depth)
+  private def write_rgb_alpha(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 8)
       canvas.each_row do |col|
@@ -132,7 +134,7 @@ module StumpyPNG
     end
   end
 
-  private def self.write_rgb(canvas, output, bit_depth)
+  private def write_rgb(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 6)
       canvas.each_row do |col|
@@ -160,7 +162,7 @@ module StumpyPNG
     end
   end
 
-  private def self.write_grayscale_alpha(canvas, output, bit_depth)
+  private def write_grayscale_alpha(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 4)
       canvas.each_row do |col|
@@ -190,7 +192,7 @@ module StumpyPNG
     end
   end
 
-  private def self.write_grayscale(canvas, output, bit_depth)
+  private def write_grayscale(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 2)
       canvas.each_row do |col|

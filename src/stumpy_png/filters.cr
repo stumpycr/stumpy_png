@@ -1,6 +1,8 @@
 module StumpyPNG
   module Filter
-    def self.apply(scanline : Bytes, prior_scanline : Bytes, decoded : Bytes, bpp, filter) : Bytes
+    extend self
+
+    def apply(scanline : Bytes, prior_scanline : Bytes, decoded : Bytes, bpp, filter) : Bytes
       case filter
       when 0 # None
         return scanline
@@ -34,7 +36,7 @@ module StumpyPNG
       decoded
     end
 
-    def self.apply(scanline : Bytes, prior_scanline : Nil, decoded : Bytes, bpp, filter) : Bytes
+    def apply(scanline : Bytes, prior_scanline : Nil, decoded : Bytes, bpp, filter) : Bytes
       case filter
       when 0 # None
         return scanline
