@@ -1,13 +1,8 @@
 require "digest/crc32"
 
 class CrcIO < IO
-  getter crc : UInt32
-  property size
-
-  def initialize
-    @crc = 0_u32
-    @size = 0
-  end
+  getter crc = 0_u32
+  property size = 0_i32
 
   def read(slice : Bytes)
     0

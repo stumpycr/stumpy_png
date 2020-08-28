@@ -14,7 +14,7 @@ module StumpyPNG
       data = slice[4, slice.size - 8]
 
       expected_crc = Digest::CRC32.checksum(slice[0, slice.size - 4])
-      raise "Incorrect checksum" if crc != expected_crc
+      raise "Incorrect checksum" unless crc == expected_crc
 
       Chunk.new(type, data, crc)
     end

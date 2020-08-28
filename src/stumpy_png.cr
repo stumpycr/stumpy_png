@@ -43,18 +43,13 @@ module StumpyPNG
   end
 
   def write(canvas, io : IO, **options)
-    bit_depth = options.fetch(:bit_depth, 16)
-    color_type = options.fetch(:color_type, :rgb_alpha)
+    bit_depth = options[:bit_depth]? || 16
+    color_type = options[:color_type]? || :rgb_alpha
 
     unless WRITE_BIT_DEPTHS.includes?(bit_depth)
       raise "Invalid bit depth: #{bit_depth}, \
       options: #{WRITE_BIT_DEPTHS.inspect}"
     end
-
-    # Make the compiler happy,
-    # if bit_depth were a Symbol, it would already have raised an error before
-    return if bit_depth.is_a?(Symbol)
-
     unless WRITE_COLOR_TYPES.has_key?(color_type)
       raise "Invalid color type: #{color_type}, \
       options: #{WRITE_COLOR_TYPES.keys.inspect}"
