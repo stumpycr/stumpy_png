@@ -14,7 +14,7 @@ class CrcIO < IO
   end
 
   def write(slice : Bytes) : Nil
-    @crc = Digest::CRC32.update(slice, @crc)
+    @crc = ::Digest::CRC32.update(slice, @crc)
     @size += slice.size
   end
 
