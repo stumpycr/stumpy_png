@@ -16,7 +16,9 @@ module StumpyPNG
     end
 
     def self.read(io : IO)
-      raise "Not a png file" unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == StumpyPNG::HEADER
+      unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == StumpyPNG::HEADER
+        raise "Not a png file"
+      end
 
       chunks = [] of Chunk
 

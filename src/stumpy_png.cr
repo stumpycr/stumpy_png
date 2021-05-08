@@ -8,6 +8,8 @@ require "./stumpy_png/crc_io"
 module StumpyPNG
   include StumpyCore
 
+  extend self
+
   HEADER = 0x89504e470d0a1a0a
 
   WRITE_BIT_DEPTHS  = {8, 16}
@@ -18,13 +20,13 @@ module StumpyPNG
     :grayscale_alpha => 4_u8,
   }
 
-  def self.read(path : String)
+  def read(path : String)
     File.open(path, "rb") do |file|
-      self.read(file)
+      read(file)
     end
   end
 
-  def self.read(io : IO)
+  def read(io : IO)
     png = PNG.new
 
     Datastream.read(io).chunks.each do |chunk|
@@ -34,25 +36,20 @@ module StumpyPNG
     png.canvas
   end
 
-  def self.write(canvas, path : String, **options)
+  def write(canvas, path : String, **options)
     File.open(path, "wb") do |file|
-      self.write(canvas, file, **options)
+      write(canvas, file, **options)
     end
   end
 
-  def self.write(canvas, io : IO, **options)
-    bit_depth = options.fetch(:bit_depth, 16)
-    color_type = options.fetch(:color_type, :rgb_alpha)
+  def write(canvas, io : IO, **options)
+    bit_depth = options[:bit_depth]? || 16
+    color_type = options[:color_type]? || :rgb_alpha
 
     unless WRITE_BIT_DEPTHS.includes?(bit_depth)
       raise "Invalid bit depth: #{bit_depth}, \
       options: #{WRITE_BIT_DEPTHS.inspect}"
     end
-
-    # Make the compiler happy,
-    # if bit_depth were a Symbol, it would already have raised an error before
-    return if bit_depth.is_a?(Symbol)
-
     unless WRITE_COLOR_TYPES.has_key?(color_type)
       raise "Invalid color type: #{color_type}, \
       options: #{WRITE_COLOR_TYPES.keys.inspect}"
@@ -85,10 +82,10 @@ module StumpyPNG
 
     Compress::Zlib::Writer.open(multi) do |deflate|
       case color_type
-      when :rgb_alpha      ; write_rgb_alpha(canvas, deflate, bit_depth)
-      when :rgb            ; write_rgb(canvas, deflate, bit_depth)
-      when :grayscale_alpha; write_grayscale_alpha(canvas, deflate, bit_depth)
-      when :grayscale      ; write_grayscale(canvas, deflate, bit_depth)
+      when :rgb_alpha       then write_rgb_alpha(canvas, deflate, bit_depth)
+      when :rgb             then write_rgb(canvas, deflate, bit_depth)
+      when :grayscale_alpha then write_grayscale_alpha(canvas, deflate, bit_depth)
+      when :grayscale       then write_grayscale(canvas, deflate, bit_depth)
       end
     end
 
@@ -104,7 +101,7 @@ module StumpyPNG
     multi.write_bytes(Digest::CRC32.checksum("IEND"), IO::ByteFormat::BigEndian)
   end
 
-  private def self.write_rgb_alpha(canvas, output, bit_depth)
+  private def write_rgb_alpha(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 8)
       canvas.each_row do |col|
@@ -132,7 +129,7 @@ module StumpyPNG
     end
   end
 
-  private def self.write_rgb(canvas, output, bit_depth)
+  private def write_rgb(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 6)
       canvas.each_row do |col|
@@ -160,7 +157,7 @@ module StumpyPNG
     end
   end
 
-  private def self.write_grayscale_alpha(canvas, output, bit_depth)
+  private def write_grayscale_alpha(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 4)
       canvas.each_row do |col|
@@ -190,7 +187,7 @@ module StumpyPNG
     end
   end
 
-  private def self.write_grayscale(canvas, output, bit_depth)
+  private def write_grayscale(canvas, output, bit_depth)
     if bit_depth == 16
       buffer = Bytes.new(1 + canvas.width * 2)
       canvas.each_row do |col|

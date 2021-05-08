@@ -1,18 +1,20 @@
 module StumpyPNG
   module Scanline
+    extend self
+
     # We don't need to care about invalid bit depths here,
     # because they are validated before
-    def self.decode_grayscale(scanline, canvas, y, bit_depth)
+    def decode_grayscale(scanline, canvas, y, bit_depth)
       case bit_depth
-      when  1; Scanline.decode_grayscale_1(scanline, canvas, y)
-      when  2; Scanline.decode_grayscale_2(scanline, canvas, y)
-      when  4; Scanline.decode_grayscale_4(scanline, canvas, y)
-      when  8; Scanline.decode_grayscale_8(scanline, canvas, y)
-      when 16; Scanline.decode_grayscale_16(scanline, canvas, y)
+      when  1 then Scanline.decode_grayscale_1(scanline, canvas, y)
+      when  2 then Scanline.decode_grayscale_2(scanline, canvas, y)
+      when  4 then Scanline.decode_grayscale_4(scanline, canvas, y)
+      when  8 then Scanline.decode_grayscale_8(scanline, canvas, y)
+      when 16 then Scanline.decode_grayscale_16(scanline, canvas, y)
       end
     end
 
-    def self.decode_grayscale_alpha(scanline, canvas, y, bit_depth)
+    def decode_grayscale_alpha(scanline, canvas, y, bit_depth)
       if bit_depth == 8
         Scanline.decode_grayscale_alpha_8(scanline, canvas, y)
       else
@@ -20,7 +22,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_rgb(scanline, canvas, y, bit_depth)
+    def decode_rgb(scanline, canvas, y, bit_depth)
       if bit_depth == 8
         Scanline.decode_rgb_8(scanline, canvas, y)
       else
@@ -28,7 +30,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_rgb_alpha(scanline, canvas, y, bit_depth)
+    def decode_rgb_alpha(scanline, canvas, y, bit_depth)
       if bit_depth == 8
         Scanline.decode_rgb_alpha_8(scanline, canvas, y)
       else
@@ -36,16 +38,16 @@ module StumpyPNG
       end
     end
 
-    def self.decode_palette(scanline, canvas, y, palette, bit_depth)
+    def decode_palette(scanline, canvas, y, palette, bit_depth)
       case bit_depth
-      when 1; Scanline.decode_palette_1(scanline, canvas, y, palette)
-      when 2; Scanline.decode_palette_2(scanline, canvas, y, palette)
-      when 4; Scanline.decode_palette_4(scanline, canvas, y, palette)
-      when 8; Scanline.decode_palette_8(scanline, canvas, y, palette)
+      when 1 then Scanline.decode_palette_1(scanline, canvas, y, palette)
+      when 2 then Scanline.decode_palette_2(scanline, canvas, y, palette)
+      when 4 then Scanline.decode_palette_4(scanline, canvas, y, palette)
+      when 8 then Scanline.decode_palette_8(scanline, canvas, y, palette)
       end
     end
 
-    def self.decode_grayscale_1(scanline, canvas, y)
+    def decode_grayscale_1(scanline, canvas, y)
       (0...canvas.width).step(8).each do |x|
         byte = scanline[x // 8]
         (0...8).each do |x2|
@@ -60,7 +62,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_grayscale_2(scanline, canvas, y)
+    def decode_grayscale_2(scanline, canvas, y)
       (0...canvas.width).step(4).each do |x|
         byte = scanline[x // 4]
         (0...4).each do |x2|
@@ -77,7 +79,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_grayscale_4(scanline, canvas, y)
+    def decode_grayscale_4(scanline, canvas, y)
       (0...canvas.width).step(2).each do |x|
         byte = scanline[x // 2]
         (0...2).each do |x2|
@@ -93,7 +95,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_grayscale_8(scanline, canvas, y)
+    def decode_grayscale_8(scanline, canvas, y)
       (0...canvas.width).each do |x|
         gray = scanline[x].to_u16
         gray += gray << 8
@@ -101,14 +103,14 @@ module StumpyPNG
       end
     end
 
-    def self.decode_grayscale_16(scanline, canvas, y)
+    def decode_grayscale_16(scanline, canvas, y)
       (0...canvas.width).each do |x|
         gray = (scanline[2 * x].to_u16 << 8) + scanline[2 * x + 1]
         canvas[x, y] = RGBA.new(gray)
       end
     end
 
-    def self.decode_grayscale_alpha_8(scanline, canvas, y)
+    def decode_grayscale_alpha_8(scanline, canvas, y)
       (0...canvas.width).each do |x|
         start = 2 * x
         gray = scanline[start].to_u16
@@ -121,7 +123,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_grayscale_alpha_16(scanline, canvas, y)
+    def decode_grayscale_alpha_16(scanline, canvas, y)
       (0...canvas.width).each do |x|
         start = 4 * x
         gray = (scanline[start].to_u16 << 8) + scanline[start + 1]
@@ -130,7 +132,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_rgb_8(scanline, canvas, y)
+    def decode_rgb_8(scanline, canvas, y)
       (0...canvas.width).each do |x|
         start = x * 3
         red = scanline[start].to_u16
@@ -144,7 +146,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_rgb_16(scanline, canvas, y)
+    def decode_rgb_16(scanline, canvas, y)
       (0...canvas.width).each do |x|
         start = x * 6
         red = (scanline[start].to_u16 << 8) + scanline[start + 1]
@@ -155,7 +157,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_rgb_alpha_8(scanline, canvas, y)
+    def decode_rgb_alpha_8(scanline, canvas, y)
       (0...canvas.width).each do |x|
         start = x * 4
         red = (scanline[start].to_u16 << 8) + scanline[start]
@@ -167,7 +169,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_rgb_alpha_16(scanline, canvas, y)
+    def decode_rgb_alpha_16(scanline, canvas, y)
       (0...canvas.width).each do |x|
         start = x * 8
         red = (scanline[start].to_u16 << 8) + scanline[start + 1]
@@ -179,7 +181,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_palette_1(scanline, canvas, y, palette)
+    def decode_palette_1(scanline, canvas, y, palette)
       (0...canvas.width).step(8).each do |x|
         byte = scanline[x // 8]
         (0...8).each do |x2|
@@ -191,7 +193,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_palette_2(scanline, canvas, y, palette)
+    def decode_palette_2(scanline, canvas, y, palette)
       (0...canvas.width).step(4).each do |x|
         byte = scanline[x // 4]
         (0...4).each do |x2|
@@ -203,7 +205,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_palette_4(scanline, canvas, y, palette)
+    def decode_palette_4(scanline, canvas, y, palette)
       (0...canvas.width).step(2).each do |x|
         byte = scanline[x // 2]
         (0...2).each do |x2|
@@ -215,7 +217,7 @@ module StumpyPNG
       end
     end
 
-    def self.decode_palette_8(scanline, canvas, y, palette)
+    def decode_palette_8(scanline, canvas, y, palette)
       (0...canvas.width).each do |x|
         byte = scanline[x]
         canvas[x, y] = palette[byte]
