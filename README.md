@@ -1,5 +1,5 @@
 # stumpy_png
-[![Build Status](https://travis-ci.org/stumpycr/stumpy_png.svg?branch=master)](https://travis-ci.org/stumpycr/stumpy_png)
+[![CI](https://github.com/stumpycr/stumpy_png/actions/workflows/ci.yml/badge.svg)](https://github.com/stumpycr/stumpy_png/actions/workflows/ci.yml)
 
 [Documentation](https://docs.leonrische.me/stumpy_png/)
 
