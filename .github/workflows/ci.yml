@@ -1,20 +1,17 @@
-name: CI
+name: GitHub Actions - Pull request
 
 on:
   push:
   pull_request:
-  schedule:
-    - cron: "0 3 * * 1" # Every monday at 3 AM
+    branches: [master]
 
 jobs:
-  test:
+  lint-and-test:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        crystal: [latest, nightly]
-    runs-on: ${{ matrix.os }}
-
+        crystal: [0.36.1, latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Install Crystal
         uses: oprypin/install-crystal@v1
@@ -29,8 +26,17 @@ jobs:
         env:
           SHARDS_OPTS: --ignore-crystal-version
 
-      - name: Run specs
-        run: crystal spec
+      - name: Build specs
+        run: crystal build spec/specs.cr
+      
+      - name: Run coverage
+        uses: kcov/kcov
+        run: kcov --clean --include-path=$(pwd)/src $(pwd)/coverage ./specs 
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - if: matrix.crystal == 'latest'
         name: Check formatting
@@ -39,3 +45,25 @@ jobs:
       - if: matrix.crystal == 'latest'
         name: Run ameba linter
         run: bin/ameba
+  # Build static binary.
+  # dist_linux: 
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: crystallang/crystal:latest-alpine
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Update Libs
+  #     run: apk add --update --upgrade --no-cache --force-overwrite libxml2-dev yaml-dev
+  #   - name: Build
+  #     run: |
+  #       shards build --production --release --static --no-debug
+  #       strip ./bin/oq
+  #   - name: Upload
+  #     uses: actions/upload-release-asset@v1.0.1
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     with:
+  #       upload_url: ${{ github.event.release.upload_url }}
+  #       asset_path: ./bin/oq
+  #       asset_name: oq-${{ github.event.release.tag_name }}-linux-x86_64
+  #       asset_content_type: binary/octet-stream
