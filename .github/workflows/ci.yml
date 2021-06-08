@@ -7,16 +7,15 @@ on:
 
 jobs:
   lint-and-test:
-    strategy:
-      fail-fast: false
-      matrix:
-        crystal: [0.36.1, latest]
     runs-on: ubuntu-latest
     steps:
       - name: Install Crystal
         uses: oprypin/install-crystal@v1
         with:
-          crystal: ${{ matrix.crystal }}
+          crystal: 0.36.1
+
+      - name: Install kcov
+        run: sudo apt-get update -y && sudo apt-get install -y kcov
 
       - name: Download source
         uses: actions/checkout@v2
@@ -30,13 +29,7 @@ jobs:
         run: crystal build spec/specs.cr
       
       - name: Run coverage
-        uses: kcov/kcov
-        run: kcov --clean --include-path=$(pwd)/src $(pwd)/coverage ./specs 
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: kcov --coveralls-id=7sqa0vYl66eYk8unII2vfY0hUjIGdzwJa --clean --include-path=$(pwd)/src $(pwd)/coverage ./specs 
 
       - if: matrix.crystal == 'latest'
         name: Check formatting

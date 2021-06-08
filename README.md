@@ -1,6 +1,5 @@
 # stumpy_png
-[![CI](https://github.com/stumpycr/stumpy_png/actions/workflows/ci.yml/badge.svg)](https://github.com/stumpycr/stumpy_png/actions/workflows/ci.yml)
-
+[![Coverage Status](https://coveralls.io/repos/github/pentest115/stumpy_png/badge.svg)](https://coveralls.io/github/pentest115/stumpy_png)
 [Documentation](https://docs.leonrische.me/stumpy_png/)
 
 ## Interface
