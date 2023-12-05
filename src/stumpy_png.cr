@@ -10,7 +10,7 @@ module StumpyPNG
 
   extend self
 
-  HEADER = 0x89504e470d0a1a0a
+  HEADER = 0x89504e470d0a1a0a_u64
 
   WRITE_BIT_DEPTHS  = {8, 16}
   WRITE_COLOR_TYPES = {
